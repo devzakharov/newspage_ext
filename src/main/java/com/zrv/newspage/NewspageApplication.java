@@ -9,6 +9,7 @@ public class NewspageApplication {
     public static void main(String[] args) {
 
         SpringApplication.run(NewspageApplication.class, args);
+        System.out.println("Hello Github");
     }
 
 }
