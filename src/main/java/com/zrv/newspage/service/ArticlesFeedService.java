@@ -1,4 +1,4 @@
 package com.zrv.newspage.service;
 
-public interface NewsFeedService {
+public interface ArticlesFeedService {
 }

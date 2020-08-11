@@ -1,25 +1,25 @@
 package com.zrv.newspage;
 
-import com.zrv.newspage.domain.Article;
+import com.zrv.newspage.controller.UserRegistrationController;
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.servlet.ServletHandler;
 
-import java.sql.SQLOutput;
-import java.util.Date;
-
-
-public class NewsPageApplication {
+public class ArticlesPageApplication {
 
     public static void main(String[] args) throws Exception {
 
-        Server server = new Server(8080);
-
+        Server server = new Server();
+        ServerConnector connector = new ServerConnector(server);
+        connector.setPort(5656);
+        server.setConnectors(new Connector[]{connector});
+        ServletHandler servletHandler = new ServletHandler();
+        servletHandler.addServletWithMapping(UserRegistrationController.class, "/register");
+        server.setHandler(servletHandler);
         server.start();
         System.out.println("Server started!");
         server.join();
-
-        Article article = new Article(1, "", "", "", "", new Date());
-        System.out.println(article);
     }
 
 }
-

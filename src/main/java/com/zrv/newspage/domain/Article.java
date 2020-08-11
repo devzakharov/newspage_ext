@@ -2,7 +2,7 @@ package com.zrv.newspage.domain;
 
 import java.util.Date;
 
-public class News {
+public class Article {
 
     private int id;
     private String url;
@@ -12,7 +12,7 @@ public class News {
     private Date datePublished;
     private final Date dateParsed;
 
-    public News(int id, String url, String header, String content, String author, Date datePublished) {
+    public Article(int id, String url, String header, String content, String author, Date datePublished) {
         this.id = id;
         this.url = url;
         this.header = header;
@@ -72,5 +72,18 @@ public class News {
 
     public Date getDateParsed() {
         return dateParsed;
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                ", header='" + header + '\'' +
+                ", content='" + content + '\'' +
+                ", author='" + author + '\'' +
+                ", datePublished=" + datePublished +
+                ", dateParsed=" + dateParsed +
+                '}';
     }
 }

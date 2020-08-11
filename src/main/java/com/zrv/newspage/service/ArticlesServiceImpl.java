@@ -2,7 +2,7 @@ package com.zrv.newspage.service;
 
 
 
-public class NewsServiceImpl implements NewsService {
+public class ArticlesServiceImpl implements ArticlesService {
 
     @Override
     public boolean delete(int id) {

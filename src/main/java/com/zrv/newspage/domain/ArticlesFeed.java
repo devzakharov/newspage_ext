@@ -1,5 +1,5 @@
 package com.zrv.newspage.domain;
 
-public class ArticleFeed {
+public class ArticlesFeed {
 
 }
