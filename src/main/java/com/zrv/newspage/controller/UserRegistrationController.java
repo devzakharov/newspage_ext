@@ -1,5 +1,6 @@
 package com.zrv.newspage.controller;
 
+import com.google.gson.Gson;
 import com.zrv.newspage.domain.User;
 import com.zrv.newspage.exception.WrongUserDataException;
 
@@ -14,6 +15,7 @@ import javax.validation.ValidatorFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class UserRegistrationController extends HttpServlet {
 
@@ -34,9 +36,10 @@ public class UserRegistrationController extends HttpServlet {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+
         PrintWriter output = resp.getWriter();
-        //resp.setContentType("text/html;charset=utf-8");
-        //resp.setStatus(HttpServletResponse.SC_OK);
 
         String login = req.getParameter("login");
         String password = req.getParameter("password");
@@ -44,29 +47,25 @@ public class UserRegistrationController extends HttpServlet {
 
         User user = new User(login, email, password);
 
+        String json;
 
         Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
 
         try {
-            if (constraintViolations.size() > 0) throw new WrongUserDataException();
+
+            if (constraintViolations.size() > 0) throw new WrongUserDataException(constraintViolations.stream().map(item -> item.getMessage()).collect(Collectors.toList()));
+
+            resp.setStatus(HttpServletResponse.SC_OK);
+
+            json = "{status:'success'}";
+
         } catch (WrongUserDataException e) {
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
+
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            output.println("Shit nigga");
+
+            json = new Gson().toJson(e.getErrorsList());
         }
 
-
-//        if (login == null || login.isEmpty()) {
-//            output.println("Login is null!");
-//        } else {
-//            output.println(login);
-//        }
-//
-//        if (password == null || password.isEmpty()) {
-//            output.println("Password is null!");
-//        } else {
-//            output.println(password);
-//        }
+        output.write(json);
     }
 }
