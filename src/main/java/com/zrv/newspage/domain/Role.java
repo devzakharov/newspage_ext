@@ -1,5 +1,4 @@
 package com.zrv.newspage.domain;
 
-public class NewsList {
-
+public enum Role {
 }
