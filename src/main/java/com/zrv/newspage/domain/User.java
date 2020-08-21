@@ -1,10 +1,15 @@
 package com.zrv.newspage.domain;
 
+import com.zrv.newspage.dao.UserDao;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.SQLException;
 
 public class User {
+
+    private int id;
 
     @NotNull(message = "Логин не может быть пустым!")
     @Size(min = 3, max = 20, message = "Логин должен содержать от 3 до 20 символов!")
@@ -42,6 +47,8 @@ public class User {
         return password;
     }
 
+    public int getId() { return id;}
+
     public void setLogin(String login) {
         this.login = login;
     }
@@ -58,10 +65,15 @@ public class User {
         this.password = password;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "login='" + login + '\'' +
+                "id=" + id +
+                ", login='" + login + '\'' +
                 ", email='" + email + '\'' +
                 ", role=" + role +
                 ", password='" + password + '\'' +

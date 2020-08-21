@@ -1,5 +1,9 @@
 package com.zrv.newspage.service;
 
+import com.zrv.newspage.domain.User;
+
+import java.sql.SQLException;
+
 public interface UserService {
 
     void addUser();

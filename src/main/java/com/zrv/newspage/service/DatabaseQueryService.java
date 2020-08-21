@@ -26,6 +26,10 @@ public class DatabaseQueryService {
         return resultSet;
     }
 
+    public Statement getStatement() {
+        return statement;
+    }
+
     private void setStatement() throws SQLException {
         statement = connection.createStatement();
     }

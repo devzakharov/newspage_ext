@@ -1,10 +1,12 @@
 package com.zrv.newspage.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.zrv.newspage.domain.User;
 import com.zrv.newspage.exception.WrongUserDataException;
+import com.zrv.newspage.service.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,9 +16,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -53,7 +53,6 @@ public class UserRegistrationController extends HttpServlet {
                 stringBuffer.append(line);
         } catch (Exception e) { /*report an error*/ }
 
-        // TODO: Switch JSON library to Jackson
         JsonObject jsonObject = new JsonParser().parse(stringBuffer.toString()).getAsJsonObject();
 
         String login = jsonObject.get("login").getAsString();
@@ -61,8 +60,6 @@ public class UserRegistrationController extends HttpServlet {
         String email = jsonObject.get("email").getAsString();
 
         User user = new User(login, email, password);
-
-        System.out.println(user.toString());
 
         String json;
 
@@ -74,14 +71,18 @@ public class UserRegistrationController extends HttpServlet {
 
             resp.setStatus(HttpServletResponse.SC_OK);
 
+            UserServiceImpl userService = new UserServiceImpl(user);
+
+            userService.addUser();
+
             json = "{\"status\":\"success\"}";
 
         } catch (WrongUserDataException e) {
 
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-
             // TODO: Switch JSON library to Jackson
-            json = new Gson().toJson(e.getErrorsList());
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            ObjectMapper objectMapper = new ObjectMapper();
+            json = objectMapper.writeValueAsString(e.getErrorsList());;
         }
 
         output.write(json);
