@@ -1,10 +1,8 @@
 package com.zrv.newspage.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.zrv.newspage.domain.User;
+import com.zrv.newspage.exception.DuplicateUserException;
 import com.zrv.newspage.exception.WrongUserDataException;
 import com.zrv.newspage.service.UserServiceImpl;
 
@@ -17,6 +15,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.io.*;
+import java.sql.SQLException;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -44,8 +44,8 @@ public class UserRegistrationController extends HttpServlet {
         setAccessControlHeaders(resp);
         PrintWriter output = resp.getWriter();
 
-        StringBuffer stringBuffer = new StringBuffer();
-        String line;
+        StringBuilder stringBuffer = new StringBuilder();
+        String line = "";
 
         try {
             BufferedReader reader = req.getReader();
@@ -53,11 +53,12 @@ public class UserRegistrationController extends HttpServlet {
                 stringBuffer.append(line);
         } catch (Exception e) { /*report an error*/ }
 
-        JsonObject jsonObject = new JsonParser().parse(stringBuffer.toString()).getAsJsonObject();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> map = objectMapper.readValue(stringBuffer.toString(), Map.class);
 
-        String login = jsonObject.get("login").getAsString();
-        String password = jsonObject.get("password").getAsString();
-        String email = jsonObject.get("email").getAsString();
+        String login = map.get("login");
+        String password = map.get("password");
+        String email = map.get("email");
 
         User user = new User(login, email, password);
 
@@ -67,22 +68,31 @@ public class UserRegistrationController extends HttpServlet {
 
         try {
 
+            UserServiceImpl userService = new UserServiceImpl(user);
+
             if (constraintViolations.size() > 0) throw new WrongUserDataException(constraintViolations.stream().map(item -> item.getMessage()).collect(Collectors.toList()));
 
-            resp.setStatus(HttpServletResponse.SC_OK);
-
-            UserServiceImpl userService = new UserServiceImpl(user);
+            if (userService.checkUserExist()) throw new DuplicateUserException("Такой пользователь уже существует!");
 
             userService.addUser();
 
-            json = "{\"status\":\"success\"}";
+            resp.setStatus(HttpServletResponse.SC_OK);
+
+            json = "{\"status\":\"Успех!\"}";
 
         } catch (WrongUserDataException e) {
 
-            // TODO: Switch JSON library to Jackson
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            ObjectMapper objectMapper = new ObjectMapper();
-            json = objectMapper.writeValueAsString(e.getErrorsList());;
+            json = objectMapper.writeValueAsString(e.getErrorsList());
+        } catch (DuplicateUserException e) {
+
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            json = objectMapper.writeValueAsString(e.getMessage());
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            json = objectMapper.writeValueAsString(e.getMessage());
         }
 
         output.write(json);

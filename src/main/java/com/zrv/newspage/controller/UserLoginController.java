@@ -1,9 +1,5 @@
 package com.zrv.newspage.controller;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,19 +29,17 @@ public class UserLoginController extends HttpServlet {
         PrintWriter output = resp.getWriter();
 
         StringBuffer stringBuffer = new StringBuffer();
-        String line;
+        String line = "";
+        BufferedReader reader = req.getReader();
 
         try {
-            BufferedReader reader = req.getReader();
             while ((line = reader.readLine()) != null)
                 stringBuffer.append(line);
         } catch (Exception e) { /*report an error*/ }
 
-        JsonObject jsonObject = new JsonParser().parse(stringBuffer.toString()).getAsJsonObject();
-
-        String login = jsonObject.get("login").getAsString();
-        String password = jsonObject.get("password").getAsString();
-        String email = jsonObject.get("email").getAsString();
+        System.out.println(reader);
+        System.out.println(line);
+        output.println(line);
     }
 
     //for Preflight

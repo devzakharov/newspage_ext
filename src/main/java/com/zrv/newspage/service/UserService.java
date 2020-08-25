@@ -9,5 +9,5 @@ public interface UserService {
     void addUser();
     void deleteUser();
     void setUserRole();
-    void checkUserExist();
+    Boolean checkUserExist() throws SQLException;
 }

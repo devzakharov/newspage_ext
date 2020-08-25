@@ -32,8 +32,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void checkUserExist() {
+    public Boolean checkUserExist() throws SQLException {
 
+        userDao = new UserDao();
+
+        if (userDao.getUserByLogin(user) > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     public UserServiceImpl(User user) {

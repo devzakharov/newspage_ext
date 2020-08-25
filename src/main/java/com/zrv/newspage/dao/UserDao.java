@@ -7,6 +7,7 @@ import com.zrv.newspage.service.DatabaseQueryService;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,35 @@ public class UserDao implements Dao<User> {
         return users;
     }
 
+    public Integer getUserByLogin(User user) throws SQLException {
+
+        String query = "";
+        int count = 0;
+
+        query = String.format(
+                "SELECT count(*) FROM users WHERE login = '%s' OR email = '%s'",
+                user.getLogin(),
+                user.getEmail()
+        );
+
+        try {
+
+            ResultSet rs = db.getStatement().executeQuery(query);
+
+            if (rs != null && rs.next()) {
+                count = rs.getInt(1);
+            }
+
+            System.out.println(count);
+
+            return count;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println(e);
+        }
+
+        return count;
+    }
+
     // передаем данные (login, email, password) для записи юзера в базу, затем пишем id в объект user
     @Override
     public void save(User user) throws SQLException {
@@ -60,7 +90,12 @@ public class UserDao implements Dao<User> {
             System.out.println(e);
         }
 
-        db.getStatement().executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+        try {
+            db.getStatement().executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println(e);
+        }
+
         ResultSet rs = db.getStatement().getGeneratedKeys();
 
         int id = -1;
