@@ -51,14 +51,15 @@ public class ArticlesUriParser {
 
         System.out.println(datasets.size());
 
-        while (datasets.size() < 1000000) {
+        while (datasets.size() < 100) {
             Datasets items = mapper.readValue(requestUrl, Datasets.class);
             datasets.addAll(items.getDatasets());
             this.offset = this.offset + limitPerRequest;
             System.out.println(this.offset);
         }
 
-        System.out.println(datasets.size());
+        //System.out.println(datasets);
+
 
         // datasets.forEach((article) -> System.out.println(article.getId() + " " + article.getFrontUrl()));
 
@@ -80,12 +81,43 @@ class Datasets {
     }
 }
 
+class Photo {
+
+    private Object photo;
+
+    @JsonProperty("photo")
+    public Object getPhoto() {
+        return photo;
+    }
+
+    @JsonProperty("photo")
+    public void setPhoto(Object photo) {
+        this.photo = photo;
+    }
+}
+
+class PhotoUrl {
+
+    private String url;
+
+    @JsonProperty("url")
+    public String getUrl() {
+        return url;
+    }
+
+    @JsonProperty("url")
+    public void setUrl(String url) {
+        this.url = url;
+    }
+}
+
 class Dataset {
 
     private String id;
     private String frontUrl;
     private String publishDate;
     private String title;
+    private Photo photo;
     private String project;
     private String category;
     private String opinionAuthors;
@@ -169,5 +201,15 @@ class Dataset {
     @JsonProperty("anons")
     public void setAnons(String anons) {
         this.anons = anons;
+    }
+
+    @JsonProperty("photo")
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    @JsonProperty("photo")
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
     }
 }
