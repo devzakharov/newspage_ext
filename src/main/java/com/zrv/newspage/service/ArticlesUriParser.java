@@ -83,29 +83,14 @@ class Datasets {
 
 class Photo {
 
-    private Object photo;
-
-    @JsonProperty("photo")
-    public Object getPhoto() {
-        return photo;
-    }
-
-    @JsonProperty("photo")
-    public void setPhoto(Object photo) {
-        this.photo = photo;
-    }
-}
-
-class PhotoUrl {
-
+    @JsonProperty("url")
     private String url;
 
-    @JsonProperty("url")
-    public String getUrl() {
+
+    public Object getUrl() {
         return url;
     }
 
-    @JsonProperty("url")
     public void setUrl(String url) {
         this.url = url;
     }
@@ -113,102 +98,101 @@ class PhotoUrl {
 
 class Dataset {
 
+    @JsonProperty("id")
     private String id;
+
+    @JsonProperty("fronturl")
     private String frontUrl;
+
+    @JsonProperty("publish_date")
     private String publishDate;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("photo")
     private Photo photo;
+
+    @JsonProperty("project")
     private String project;
+
+    @JsonProperty("category")
     private String category;
+
+    @JsonProperty("opinion_authors")
     private String opinionAuthors;
+
+    @JsonProperty("anons")
     private String anons;
 
-    @JsonProperty("id")
     public String getId() {
         return id;
     }
 
-    @JsonProperty("id")
     public void setId(String id) {
         this.id = id;
     }
 
-    @JsonProperty("fronturl")
     public String getFrontUrl() {
         return frontUrl;
     }
 
-    @JsonProperty("fronturl")
     public void setFrontUrl(String frontUrl) {
         this.frontUrl = frontUrl;
     }
 
-    @JsonProperty("publish_date")
     public String getPublishDate() {
         return publishDate;
     }
 
-    @JsonProperty("publish_date")
     public void setPublishDate(String publishDate) {
         this.publishDate = publishDate;
     }
 
-    @JsonProperty("title")
     public String getTitle() {
         return title;
     }
 
-    @JsonProperty("title")
     public void setTitle(String title) {
         this.title = title;
     }
 
-    @JsonProperty("project")
     public String getProject() {
         return project;
     }
 
-    @JsonProperty("project")
     public void setProject(String project) {
         this.project = project;
     }
 
-    @JsonProperty("category")
     public String getCategory() {
         return category;
     }
 
-    @JsonProperty("category")
     public void setCategory(String category) {
         this.category = category;
     }
 
-    @JsonProperty("opinion_authors")
     public String getOpinionAuthors() {
         return opinionAuthors;
     }
 
-    @JsonProperty("opinion_authors")
     public void setOpinionAuthors(String opinionAuthors) {
         this.opinionAuthors = opinionAuthors;
     }
 
-    @JsonProperty("anons")
     public String getAnons() {
         return anons;
     }
 
-    @JsonProperty("anons")
     public void setAnons(String anons) {
         this.anons = anons;
     }
 
-    @JsonProperty("photo")
     public Photo getPhoto() {
         return photo;
     }
 
-    @JsonProperty("photo")
     public void setPhoto(Photo photo) {
         this.photo = photo;
     }
