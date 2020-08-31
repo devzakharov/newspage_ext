@@ -20,8 +20,8 @@ public class ArticlesPageApplication {
 
         ArticlesUriParser.getInstance();
 
-        // System.out.println(ArticlesUriParser.getInstance().getRequestUrl());
-        System.out.println(ArticlesUriParser.getInstance().getJsonObject());
+        ArticlesUriParser.getInstance().fillDataObject();
+        System.out.println(ArticlesUriParser.getInstance().getDataObject().toString());
 
         Server server = new Server();
         ServerConnector connector = new ServerConnector(server);
