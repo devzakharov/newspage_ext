@@ -1,27 +1,28 @@
 package com.zrv.newspage;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.zrv.newspage.controller.UserLoginController;
 import com.zrv.newspage.controller.UserRegistrationController;
-import com.zrv.newspage.service.ArticlesUriParser;
+import com.zrv.newspage.service.ArticlesHtmlDataParser;
+import com.zrv.newspage.service.ArticlesJsonDataParser;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
-
-import java.lang.reflect.Method;
-import java.util.Iterator;
-import java.util.Map;
 
 public class ArticlesPageApplication {
 
 
     public static void main(String[] args) throws Exception {
 
-        ArticlesUriParser.getInstance();
+        ArticlesJsonDataParser.getInstance();
 
-        ArticlesUriParser.getInstance().fillDataObject();
-        System.out.println(ArticlesUriParser.getInstance().getDataObject().toString());
+        ArticlesJsonDataParser.getInstance().fillDataObject();
+        System.out.println(ArticlesJsonDataParser.getInstance().getDataObject().toString());
+
+        ArticlesJsonDataParser.getInstance().getDataObject().forEach(data -> System.out.println(data.getFrontUrl()));
+
+        ArticlesHtmlDataParser htmlDataParser = new ArticlesHtmlDataParser(ArticlesJsonDataParser.getInstance().getDataObject());
+        htmlDataParser.fillDataObject();
 
         Server server = new Server();
         ServerConnector connector = new ServerConnector(server);

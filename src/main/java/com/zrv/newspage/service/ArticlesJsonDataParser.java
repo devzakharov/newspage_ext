@@ -11,22 +11,22 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ArticlesUriParser {
+public class ArticlesJsonDataParser {
 
-    private static ArticlesUriParser instance;
+    private static ArticlesJsonDataParser instance;
     final static int limitPerRequest = 100; // Ограничение api
     int offset = 0; //стартовый сдвиг
-    URL requestUrl = new URL(String.format("https://www.rbc.ru/v10/search/ajax/?offset=%d&limit=%d", offset, limitPerRequest));
-    int articlesCountLimit = 1000;
+    int articlesCountLimit = 100;
     Set<RawArticle> rawArticleSet = new HashSet<>();
 
-    private ArticlesUriParser() throws IOException {
+    private ArticlesJsonDataParser() throws IOException {
 
     }
 
-    public static ArticlesUriParser getInstance() throws IOException {
+    public static ArticlesJsonDataParser getInstance() throws IOException {
+
         if (instance == null) {
-            instance = new ArticlesUriParser();
+            instance = new ArticlesJsonDataParser();
         }
         return instance;
     }
@@ -37,22 +37,20 @@ public class ArticlesUriParser {
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
         while (rawArticleSet.size() < articlesCountLimit) {
-            RawArticles addedRawArticles = mapper.readValue(requestUrl, RawArticles.class);
+            RawArticles addedRawArticles = mapper.readValue(getRequestUrl(), RawArticles.class);
             rawArticleSet.addAll(addedRawArticles.getRawArticleSet());
-            // Данила так советовал:
-            // rawArticleSet.addAll(mapper.readValue(requestUrl, RawArticles.class).getRawArticleSet());
             offset += limitPerRequest;
-            updateRequestUrl();
         }
 
     }
 
     public Set<RawArticle> getDataObject() {
+
         return rawArticleSet;
     }
 
-    private void updateRequestUrl() throws MalformedURLException {
-        requestUrl = new URL(String.format("https://www.rbc.ru/v10/search/ajax/?offset=%d&limit=%d", offset, limitPerRequest));
-        System.out.println(requestUrl);
+    private URL getRequestUrl() throws MalformedURLException {
+
+        return new URL(String.format("https://www.rbc.ru/v10/search/ajax/?offset=%d&limit=%d", offset, limitPerRequest));
     }
 }
