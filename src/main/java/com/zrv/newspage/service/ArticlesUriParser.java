@@ -6,6 +6,7 @@ import com.zrv.newspage.domain.RawArticle;
 import com.zrv.newspage.domain.RawArticles;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,7 +41,8 @@ public class ArticlesUriParser {
             rawArticleSet.addAll(addedRawArticles.getRawArticleSet());
             // Данила так советовал:
             // rawArticleSet.addAll(mapper.readValue(requestUrl, RawArticles.class).getRawArticleSet());
-            offset = offset + limitPerRequest;
+            offset += limitPerRequest;
+            updateRequestUrl();
         }
 
     }
@@ -49,5 +51,8 @@ public class ArticlesUriParser {
         return rawArticleSet;
     }
 
-
+    private void updateRequestUrl() throws MalformedURLException {
+        requestUrl = new URL(String.format("https://www.rbc.ru/v10/search/ajax/?offset=%d&limit=%d", offset, limitPerRequest));
+        System.out.println(requestUrl);
+    }
 }
