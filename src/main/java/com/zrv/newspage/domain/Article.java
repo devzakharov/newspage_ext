@@ -4,86 +4,147 @@ import java.util.Date;
 
 public class Article {
 
-    private int id;
-    private String url;
-    private String header;
-    private String content;
-    private String author;
-    private Date datePublished;
-    private final Date dateParsed;
+    private String id;
+    private String description;
+    private String newsKeywords;
+    private String image;
+    private String articleHtml; //
+    private String frontUrl;
+    private String title;
+    private RawPhoto photo;
+    private String project;
+    private String category;
+    private String opinionAuthors;
+    private String anons;
+    private Date publishDate;
+    private final Date parsedDate = new Date();
 
-    public Article(int id, String url, String header, String content, String author, Date datePublished) {
-        this.id = id;
-        this.url = url;
-        this.header = header;
-        this.content = content;
-        this.author = author;
-        this.datePublished = datePublished;
-        this.dateParsed = new Date();
+    public Article() {
+
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getUrl() {
-        return url;
+    public String getDescription() {
+        return description;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getHeader() {
-        return header;
+    public String getNewsKeywords() {
+        return newsKeywords;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setNewsKeywords(String newsKeywords) {
+        this.newsKeywords = newsKeywords;
     }
 
-    public String getContent() {
-        return content;
+    public String getImage() {
+        return image;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getArticleHtml() {
+        return articleHtml;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setArticleHtml(String articleHtml) {
+        this.articleHtml = articleHtml;
     }
 
-    public Date getDatePublished() {
-        return datePublished;
+    public String getFrontUrl() {
+        return frontUrl;
     }
 
-    public void setDatePublished(Date datePublished) {
-        this.datePublished = datePublished;
+    public void setFrontUrl(String frontUrl) {
+        this.frontUrl = frontUrl;
     }
 
-    public Date getDateParsed() {
-        return dateParsed;
+    public String getTitle() {
+        return title;
     }
 
-    @Override
-    public String toString() {
-        return "Article{" +
-                "id=" + id +
-                ", url='" + url + '\'' +
-                ", header='" + header + '\'' +
-                ", content='" + content + '\'' +
-                ", author='" + author + '\'' +
-                ", datePublished=" + datePublished +
-                ", dateParsed=" + dateParsed +
-                '}';
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public RawPhoto getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(RawPhoto photo) {
+        this.photo = photo;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getOpinionAuthors() {
+        return opinionAuthors;
+    }
+
+    public void setOpinionAuthors(String opinionAuthors) {
+        this.opinionAuthors = opinionAuthors;
+    }
+
+    public String getAnons() {
+        return anons;
+    }
+
+    public void setAnons(String anons) {
+        this.anons = anons;
+    }
+
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    public Date getParsedDate() {
+        return parsedDate;
+    }
+
+    public String toQueryString() {
+        return  "\"" + id + "\", " +
+                "\"" + description + "\", " +
+                "\"" + newsKeywords + "\", " +
+                "\"" + image + "\", " +
+                "\"" + articleHtml + "\", " +
+                "\"" + frontUrl + "\", " +
+                "\"" + title + "\", " +
+                "\"" + photo + "\", " +
+                "\"" + project + "\", " +
+                "\"" + category + "\", " +
+                "\"" + opinionAuthors + "\", " +
+                "\"" + anons + "\", " +
+                "\"" + publishDate + "\", " +
+                "\"" + parsedDate + "\"";
     }
 }

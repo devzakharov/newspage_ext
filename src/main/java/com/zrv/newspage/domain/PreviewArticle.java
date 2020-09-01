@@ -2,7 +2,9 @@ package com.zrv.newspage.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RawArticle {
+import java.util.Date;
+
+public class PreviewArticle {
 
     @JsonProperty("id")
     private String id;
@@ -11,7 +13,7 @@ public class RawArticle {
     private String frontUrl;
 
     @JsonProperty("publish_date")
-    private String publishDate;
+    private Date publishDate;
 
     @JsonProperty("title")
     private String title;
@@ -47,11 +49,11 @@ public class RawArticle {
         this.frontUrl = frontUrl;
     }
 
-    public String getPublishDate() {
+    public Date getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(String publishDate) {
+    public void setPublishDate(Date publishDate) {
         this.publishDate = publishDate;
     }
 
@@ -101,5 +103,20 @@ public class RawArticle {
 
     public void setPhoto(RawPhoto photo) {
         this.photo = photo;
+    }
+
+    @Override
+    public String toString() {
+        return "PreviewArticle{" +
+                "id='" + id + '\'' +
+                ", frontUrl='" + frontUrl + '\'' +
+                ", publishDate=" + publishDate +
+                ", title='" + title + '\'' +
+                ", photo=" + photo +
+                ", project='" + project + '\'' +
+                ", category='" + category + '\'' +
+                ", opinionAuthors='" + opinionAuthors + '\'' +
+                ", anons='" + anons + '\'' +
+                '}';
     }
 }
