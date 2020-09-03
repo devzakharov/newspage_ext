@@ -3,6 +3,7 @@ package com.zrv.newspage.service;
 import com.zrv.newspage.dao.ArticleDao;
 import com.zrv.newspage.domain.Article;
 import com.zrv.newspage.domain.PreviewArticle;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -13,6 +14,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class ArticlesHtmlDataParser {
+
+    private static final Logger logger = Logger.getLogger(ArticlesHtmlDataParser.class);
+
     Map<String, PreviewArticle> previewArticleMap;
     Set<Article> articleSet = new HashSet<>();
 
@@ -37,7 +41,7 @@ public class ArticlesHtmlDataParser {
 
         Article article = new Article();
         Document doc = Jsoup.connect(previewArticle.getFrontUrl()).get();
-        System.out.println("Data id: " + doc.select(".js-rbcslider-slide").attr("data-id"));
+        // System.out.println("Data id: " + doc.select(".js-rbcslider-slide").attr("data-id"));
 
         article.setId(doc.select(".js-rbcslider-slide").attr("data-id"));
         article.setDescription(doc.select("div.js-rbcslider > div > meta").attr("content"));
@@ -53,6 +57,8 @@ public class ArticlesHtmlDataParser {
         article.setOpinionAuthors(previewArticle.getOpinionAuthors());
         article.setAnons(previewArticle.getAnons());
         article.setPublishDate(previewArticle.getPublishDate());
+
+        logger.debug("Created article: " + article.toString());
 
         this.articleSet.add(article);
     }

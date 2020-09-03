@@ -1,6 +1,6 @@
 package com.zrv.newspage.domain;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Article {
 
@@ -16,8 +16,8 @@ public class Article {
     private String category;
     private String opinionAuthors;
     private String anons;
-    private Date publishDate;
-    private final Date parsedDate = new Date();
+    private Timestamp publishDate;
+    private final Timestamp parsedDate = new java.sql.Timestamp(new java.util.Date().getTime());
 
     public Article() {
 
@@ -119,32 +119,52 @@ public class Article {
         this.anons = anons;
     }
 
-    public Date getPublishDate() {
+    public Timestamp getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(Date publishDate) {
+    public void setPublishDate(Timestamp publishDate) {
         this.publishDate = publishDate;
     }
 
-    public Date getParsedDate() {
+    public Timestamp getParsedDate() {
         return parsedDate;
     }
 
     public String toQueryString() {
-        return  "\"" + id + "\", " +
-                "\"" + description + "\", " +
-                "\"" + newsKeywords + "\", " +
-                "\"" + image + "\", " +
-                "\"" + articleHtml + "\", " +
-                "\"" + frontUrl + "\", " +
-                "\"" + title + "\", " +
-                "\"" + photo + "\", " +
-                "\"" + project + "\", " +
-                "\"" + category + "\", " +
-                "\"" + opinionAuthors + "\", " +
-                "\"" + anons + "\", " +
-                "\"" + publishDate + "\", " +
-                "\"" + parsedDate + "\"";
+        return  "('" + id + "', " +
+                "'" + description + "', " +
+                "'" + newsKeywords + "', " +
+                "'" + image + "', " +
+                "'" + articleHtml.replace("'", "\"") + "', " +
+                "'" + frontUrl + "', " +
+                "'" + title + "', " +
+                "'" + photo + "', " +
+                "'" + project + "', " +
+                "'" + category + "', " +
+                "'" + opinionAuthors + "', " +
+                "'" + anons + "', " +
+                "'" + publishDate + "', " +
+                "'" + parsedDate + "')";
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id='" + id + '\'' +
+                ", description='" + description + '\'' +
+                ", newsKeywords='" + newsKeywords + '\'' +
+                ", image='" + image + '\'' +
+                ", articleHtml='" + articleHtml + '\'' +
+                ", frontUrl='" + frontUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", photo=" + photo +
+                ", project='" + project + '\'' +
+                ", category='" + category + '\'' +
+                ", opinionAuthors='" + opinionAuthors + '\'' +
+                ", anons='" + anons + '\'' +
+                ", publishDate=" + publishDate +
+                ", parsedDate=" + parsedDate +
+                '}';
     }
 }

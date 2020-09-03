@@ -30,7 +30,7 @@ public class UserDao implements Dao<User> {
 
     @Override
     public List<User> getAll() throws SQLException {
-        ResultSet rs = db.getResultSet("SELECT * FROM users");
+        ResultSet rs = db.getConnection().prepareStatement("SELECT * FROM users").getResultSet();
         while (rs.next()) {
             int id = rs.getInt("id");
             String login = rs.getString("login");
@@ -59,7 +59,7 @@ public class UserDao implements Dao<User> {
 
         try {
 
-            ResultSet rs = db.getStatement().executeQuery(query);
+            ResultSet rs = db.getConnection().createStatement().executeQuery(query);
 
             if (rs != null && rs.next()) {
                 count = rs.getInt(1);
@@ -91,12 +91,12 @@ public class UserDao implements Dao<User> {
         }
 
         try {
-            db.getStatement().executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            db.getConnection().createStatement().executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
         } catch (SQLIntegrityConstraintViolationException e) {
             System.out.println(e);
         }
 
-        ResultSet rs = db.getStatement().getGeneratedKeys();
+        ResultSet rs = db.getConnection().createStatement().getGeneratedKeys();
 
         int id = -1;
 

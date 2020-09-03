@@ -9,29 +9,37 @@ public class DatabaseQueryService {
     private static final String password = "";
 
     private static Connection connection;
-    private static Statement statement;
-    private static ResultSet resultSet;
+//    private static Statement statement;
+//    private static ResultSet resultSet;
 
     public DatabaseQueryService() {
         try {
             connection = DriverManager.getConnection(url, user, password);
-            setStatement();
+            //setStatement();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public ResultSet getResultSet(String query) throws SQLException {
-        resultSet = statement.executeQuery(query);
-        return resultSet;
-    }
+//    public ResultSet getResultSet(String query) throws SQLException {
+//        resultSet = statement.executeQuery(query);
+//        return resultSet;
+//    }
 
-    public Statement getStatement() {
-        return statement;
-    }
+//    public Statement getStatement() {
+//        return statement;
+//    }
+//
+//    private void setStatement() throws SQLException {
+//        statement = connection.createStatement();
+//    }
+//
+//    public void setPrepareStatement(String query) throws SQLException {
+//        statement = connection.prepareStatement(query);
+//    }
 
-    private void setStatement() throws SQLException {
-        statement = connection.createStatement();
+    public Connection getConnection () {
+        return connection;
     }
 
 }

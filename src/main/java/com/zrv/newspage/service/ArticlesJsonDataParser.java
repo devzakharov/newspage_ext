@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zrv.newspage.domain.PreviewArticle;
 import com.zrv.newspage.domain.PreviewArticles;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -16,10 +16,12 @@ import java.util.stream.Collectors;
 
 public class ArticlesJsonDataParser {
 
+    final static Logger logger = Logger.getLogger(ArticlesJsonDataParser.class);
+
     private static ArticlesJsonDataParser instance;
-    final static int limitPerRequest = 10; // Ограничение api - 100
+    final static int limitPerRequest = 1; // Ограничение api - 100
     int offset = 0; //стартовый сдвиг
-    int articlesCountLimit = 10;
+    int articlesCountLimit = 1;
     Set<PreviewArticle> previewArticleSet = new HashSet<>();
 
     private ArticlesJsonDataParser() throws IOException {
@@ -54,6 +56,8 @@ public class ArticlesJsonDataParser {
 
     private URL getRequestUrl() throws MalformedURLException {
 
-        return new URL(String.format("https://www.rbc.ru/v10/search/ajax/?offset=%d&limit=%d", offset, limitPerRequest));
+        URL link = new URL(String.format("https://www.rbc.ru/v10/search/ajax/?offset=%d&limit=%d", offset, limitPerRequest));
+        logger.info("Created new link: " + link);
+        return link;
     }
 }

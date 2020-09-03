@@ -2,7 +2,8 @@ package com.zrv.newspage.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 public class PreviewArticle {
 
@@ -13,7 +14,7 @@ public class PreviewArticle {
     private String frontUrl;
 
     @JsonProperty("publish_date")
-    private Date publishDate;
+    private Timestamp publishDate;
 
     @JsonProperty("title")
     private String title;
@@ -49,11 +50,11 @@ public class PreviewArticle {
         this.frontUrl = frontUrl;
     }
 
-    public Date getPublishDate() {
+    public Timestamp getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(Date publishDate) {
+    public void setPublishDate(Timestamp publishDate) {
         this.publishDate = publishDate;
     }
 

@@ -4,22 +4,27 @@ import com.zrv.newspage.controller.UserLoginController;
 import com.zrv.newspage.controller.UserRegistrationController;
 import com.zrv.newspage.service.ArticlesHtmlDataParser;
 import com.zrv.newspage.service.ArticlesJsonDataParser;
+import org.apache.log4j.BasicConfigurator;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
 
+
+
+
 public class ArticlesPageApplication {
 
-
     public static void main(String[] args) throws Exception {
+
+        BasicConfigurator.configure();
 
         // Заполнение сета сырых статей из JSON РБК
         ArticlesJsonDataParser.getInstance().fillDataObject();
 
-        ArticlesJsonDataParser.getInstance().getDataObject().forEach((key, value) -> {
-            System.out.println("Key: " + key + " Value: " + value.toString());
-        });
+//        ArticlesJsonDataParser.getInstance().getDataObject().forEach((key, value) -> {
+//            System.out.println("Key: " + key + " Value: " + value.toString());
+//        });
 
         // Заполнение сета полными статьями по результатам полученным из мапы сырых статей
         ArticlesHtmlDataParser htmlDataParser = new ArticlesHtmlDataParser(
