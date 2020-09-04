@@ -1,6 +1,7 @@
 package com.zrv.newspage.domain;
 
 import java.sql.Timestamp;
+import java.util.Base64;
 
 public class Article {
 
@@ -133,17 +134,17 @@ public class Article {
 
     public String toQueryString() {
         return  "('" + id + "', " +
-                "'" + description + "', " +
+                "'" + Base64.getEncoder().encodeToString(description.getBytes()) + "', " +
                 "'" + newsKeywords + "', " +
                 "'" + image + "', " +
-                "'" + articleHtml.replace("'", "\"") + "', " +
+                "'" + Base64.getEncoder().encodeToString(articleHtml.getBytes()) + "', " +
                 "'" + frontUrl + "', " +
-                "'" + title + "', " +
+                "'" + Base64.getEncoder().encodeToString(title.getBytes()) + "', " +
                 "'" + photo + "', " +
                 "'" + project + "', " +
                 "'" + category + "', " +
                 "'" + opinionAuthors + "', " +
-                "'" + anons + "', " +
+                "'" + Base64.getEncoder().encodeToString(anons.getBytes()) + "', " +
                 "'" + publishDate + "', " +
                 "'" + parsedDate + "')";
     }

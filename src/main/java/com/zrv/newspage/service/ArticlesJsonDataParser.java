@@ -19,9 +19,9 @@ public class ArticlesJsonDataParser {
     final static Logger logger = Logger.getLogger(ArticlesJsonDataParser.class);
 
     private static ArticlesJsonDataParser instance;
-    final static int limitPerRequest = 1; // Ограничение api - 100
+    final static int limitPerRequest = 50; // Ограничение api - 100
     int offset = 0; //стартовый сдвиг
-    int articlesCountLimit = 1;
+    int articlesCountLimit = 1000;
     Set<PreviewArticle> previewArticleSet = new HashSet<>();
 
     private ArticlesJsonDataParser() throws IOException {

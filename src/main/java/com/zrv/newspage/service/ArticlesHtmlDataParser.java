@@ -58,7 +58,7 @@ public class ArticlesHtmlDataParser {
         article.setAnons(previewArticle.getAnons());
         article.setPublishDate(previewArticle.getPublishDate());
 
-        logger.debug("Created article: " + article.toString());
+        // logger.debug("Created article: " + article.toString());
 
         this.articleSet.add(article);
     }
@@ -71,6 +71,8 @@ public class ArticlesHtmlDataParser {
     public void writeArticlesToDb () throws SQLException {
 
         ArticleDao articleDao = new ArticleDao();
+        //Set<Article> temp = new HashSet<>();
         articleDao.save(this.articleSet);
     }
 }
+

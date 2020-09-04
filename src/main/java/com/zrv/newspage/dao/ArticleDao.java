@@ -7,10 +7,7 @@ import org.apache.log4j.Logger;
 
 
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class ArticleDao implements Dao<Article> {
 
@@ -54,10 +51,11 @@ public class ArticleDao implements Dao<Article> {
                         "`parsed_date`) VALUES "
         );
 
-        articleSet.toString();
-
         Iterator<Article> iterator = articleSet.iterator();
+        List<String> queryList = new LinkedList<>();
 
+
+        int queryStringCounter = 0;
         while (iterator.hasNext()) {
 
             Article article = iterator.next();
@@ -71,19 +69,48 @@ public class ArticleDao implements Dao<Article> {
                 query.append(";");
             }
 
+            if (queryStringCounter == 50) {
+                queryList.add(query.toString());
+                query = new StringBuilder();
+                query.append(
+                        "REPLACE INTO articles (" +
+                                "`id`, " +
+                                "`description`, " +
+                                "`news_keywords`, " +
+                                "`image`, " +
+                                "`article_html`, " +
+                                "`front_url`, " +
+                                "`title`, " +
+                                "`photo`, " +
+                                "`project`, " +
+                                "`category`, " +
+                                "`opinion_authors`, " +
+                                "`anons`, " +
+                                "`publish_date`, " +
+                                "`parsed_date`) VALUES "
+                );
+                queryStringCounter = 0;
+            } else {
+                queryList.add(query.toString());
+                queryStringCounter++;
+            }
+
         }
 
-        logger.info(query.toString());
+//        logger.info(query.toString());
 
 //        System.out.println(query.toString());
 //        db.getStatement().executeUpdate(query.toString());
-        try {
-            db.getConnection().prepareStatement(query.toString()).executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println(query);
+        queryList.forEach(queryListItem -> {
+            try {
+                db.getConnection().prepareStatement(queryListItem).executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                logger.warn("Проблема с: " + queryListItem);
+                logger.warn(e.getMessage());
+            }
+        });
 
-        }
     }
 
     @Override
