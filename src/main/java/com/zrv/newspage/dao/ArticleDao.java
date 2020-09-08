@@ -6,6 +6,7 @@ import com.zrv.newspage.service.DatabaseQueryService;
 import org.apache.log4j.Logger;
 
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -32,67 +33,70 @@ public class ArticleDao implements Dao<Article> {
 
     public void save(Set<Article> articleSet) throws SQLException {
 
-        StringBuilder query = new StringBuilder();
-        query.append(
-                "REPLACE INTO articles (" +
-                        "`id`, " +
-                        "`description`, " +
-                        "`news_keywords`, " +
-                        "`image`, " +
-                        "`article_html`, " +
-                        "`front_url`, " +
-                        "`title`, " +
-                        "`photo`, " +
-                        "`project`, " +
-                        "`category`, " +
-                        "`opinion_authors`, " +
-                        "`anons`, " +
-                        "`publish_date`, " +
-                        "`parsed_date`) VALUES "
-        );
-
         Iterator<Article> iterator = articleSet.iterator();
         List<String> queryList = new LinkedList<>();
+
+        StringBuilder query = new StringBuilder();
+        query.append(
+                "INSERT INTO articles (" +
+                        "id, " +
+                        "description, " +
+                        "news_keywords, " +
+                        "image, " +
+                        "article_html, " +
+                        "front_url, " +
+                        "title, " +
+                        "photo, " +
+                        "project, " +
+                        "category, " +
+                        "opinion_authors, " +
+                        "anons, " +
+                        "publish_date, " +
+                        "parsed_date) VALUES "
+        );
 
 
         int queryStringCounter = 0;
         while (iterator.hasNext()) {
 
             Article article = iterator.next();
-            if (iterator.hasNext()) {
+//            if (iterator.hasNext()) {
+//                query.append(article.toQueryString());
+//                query.append(",");
+//            }
+
+//            if (!iterator.hasNext()) {
+//                query.append(article.toQueryString());
+//                query.append(";");
+//            }
+
+            if (queryStringCounter < 4) {
                 query.append(article.toQueryString());
                 query.append(",");
-            }
-
-            if (!iterator.hasNext()) {
+                queryStringCounter++;
+           } else {
                 query.append(article.toQueryString());
-                query.append(";");
-            }
-
-            if (queryStringCounter == 50) {
+                query.append(" ON CONFLICT DO NOTHING;");
                 queryList.add(query.toString());
+                queryStringCounter = 0;
                 query = new StringBuilder();
                 query.append(
-                        "REPLACE INTO articles (" +
-                                "`id`, " +
-                                "`description`, " +
-                                "`news_keywords`, " +
-                                "`image`, " +
-                                "`article_html`, " +
-                                "`front_url`, " +
-                                "`title`, " +
-                                "`photo`, " +
-                                "`project`, " +
-                                "`category`, " +
-                                "`opinion_authors`, " +
-                                "`anons`, " +
-                                "`publish_date`, " +
-                                "`parsed_date`) VALUES "
+                        "INSERT INTO articles (" +
+                                "id, " +
+                                "description, " +
+                                "news_keywords, " +
+                                "image, " +
+                                "article_html, " +
+                                "front_url, " +
+                                "title, " +
+                                "photo, " +
+                                "project, " +
+                                "category, " +
+                                "opinion_authors, " +
+                                "anons, " +
+                                "publish_date, " +
+                                "parsed_date) VALUES "
                 );
-                queryStringCounter = 0;
-            } else {
-                queryList.add(query.toString());
-                queryStringCounter++;
             }
 
         }
@@ -121,5 +125,16 @@ public class ArticleDao implements Dao<Article> {
     @Override
     public void delete(Article a) {
 
+    }
+
+    public String getTagMap () throws SQLException {
+        String query = "SELECT count(flatArrayDistinct), flatArrayDistinct " +
+                "FROM articles," +
+                "LATERAL (SELECT unnest(news_keywords) FROM articles) as flatArrayDistinct" +
+                "GROUP BY articles.id, flatArrayDistinct";
+        ResultSet rs = db.getConnection().createStatement().executeQuery(query);
+        rs.next();
+        String tagList = rs.getString(1);
+        return tagList;
     }
 }

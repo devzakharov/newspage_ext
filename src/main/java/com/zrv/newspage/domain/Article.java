@@ -2,6 +2,7 @@ package com.zrv.newspage.domain;
 
 import java.sql.Timestamp;
 import java.util.Base64;
+import java.util.Objects;
 
 public class Article {
 
@@ -135,7 +136,7 @@ public class Article {
     public String toQueryString() {
         return  "('" + id + "', " +
                 "'" + Base64.getEncoder().encodeToString(description.getBytes()) + "', " +
-                "'" + newsKeywords + "', " +
+                "'{" + newsKeywords + "}', " +
                 "'" + image + "', " +
                 "'" + Base64.getEncoder().encodeToString(articleHtml.getBytes()) + "', " +
                 "'" + frontUrl + "', " +
@@ -167,5 +168,18 @@ public class Article {
                 ", publishDate=" + publishDate +
                 ", parsedDate=" + parsedDate +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return id.equals(article.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

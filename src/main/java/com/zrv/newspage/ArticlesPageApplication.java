@@ -1,16 +1,17 @@
 package com.zrv.newspage;
 
+import com.zrv.newspage.controller.ArticlesController;
 import com.zrv.newspage.controller.UserLoginController;
 import com.zrv.newspage.controller.UserRegistrationController;
-import com.zrv.newspage.service.ArticlesHtmlDataParser;
-import com.zrv.newspage.service.ArticlesJsonDataParser;
+import com.zrv.newspage.dao.ArticleDao;
+import com.zrv.newspage.service.ArticlesParseScheduler;
 import org.apache.log4j.BasicConfigurator;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
 
-
+import java.util.Timer;
 
 
 public class ArticlesPageApplication {
@@ -19,19 +20,26 @@ public class ArticlesPageApplication {
 
         BasicConfigurator.configure();
 
-        // Заполнение сета сырых статей из JSON РБК
-        ArticlesJsonDataParser.getInstance().fillDataObject();
+//        ArticlesJsonDataParser.getInstance().fillDataObject();
+//
+//        ArticlesHtmlDataParser htmlDataParser = new ArticlesHtmlDataParser(
+//                ArticlesJsonDataParser.getInstance().getDataObject()
+//        );
+//
+//        htmlDataParser.fillDataObject();
+//        htmlDataParser.writeArticlesToDb();
 
-//        ArticlesJsonDataParser.getInstance().getDataObject().forEach((key, value) -> {
-//            System.out.println("Key: " + key + " Value: " + value.toString());
-//        });
+        ArticleDao ad = new ArticleDao();
+        System.out.println(ad.getTagList());
 
-        // Заполнение сета полными статьями по результатам полученным из мапы сырых статей
-        ArticlesHtmlDataParser htmlDataParser = new ArticlesHtmlDataParser(
-                ArticlesJsonDataParser.getInstance().getDataObject()
-        );
-        htmlDataParser.fillDataObject();
-        htmlDataParser.writeArticlesToDb();
+//        String[] tagArray = ad.getTagList().split(", ");
+//        for (int i = 0; i <= tagArray.length; i++) {
+//
+//        }
+
+//        Timer time = new Timer();
+//        ArticlesParseScheduler s = new ArticlesParseScheduler();
+//        time.schedule(s, 0, 3600000);
 
         Server server = new Server();
         ServerConnector connector = new ServerConnector(server);
@@ -40,6 +48,7 @@ public class ArticlesPageApplication {
         ServletHandler servletHandler = new ServletHandler();
         servletHandler.addServletWithMapping(UserRegistrationController.class, "/register");
         servletHandler.addServletWithMapping(UserLoginController.class, "/login");
+        servletHandler.addServletWithMapping(ArticlesController.class, "/articles");
         server.setHandler(servletHandler);
         server.start();
         System.out.println("Server started!");

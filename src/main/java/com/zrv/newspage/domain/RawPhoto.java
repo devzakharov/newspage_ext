@@ -17,6 +17,6 @@ class RawPhoto {
 
     @Override
     public String toString() {
-        return "{" + "\"url\"=\"" + url + '\"' + '}';
+        return "{" + "\"url\":\"" + url + '\"' + '}';
     }
 }

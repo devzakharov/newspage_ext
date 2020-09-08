@@ -19,9 +19,9 @@ public class ArticlesJsonDataParser {
     final static Logger logger = Logger.getLogger(ArticlesJsonDataParser.class);
 
     private static ArticlesJsonDataParser instance;
-    final static int limitPerRequest = 50; // Ограничение api - 100
+    final static int limitPerRequest = 100; // Ограничение api - 100
     int offset = 0; //стартовый сдвиг
-    int articlesCountLimit = 1000;
+    int articlesCountLimit = 200;
     Set<PreviewArticle> previewArticleSet = new HashSet<>();
 
     private ArticlesJsonDataParser() throws IOException {
@@ -56,6 +56,7 @@ public class ArticlesJsonDataParser {
 
     private URL getRequestUrl() throws MalformedURLException {
 
+        // https://www.rbc.ru/v10/search/ajax/?offset=100&limit=100&dateFrom=06.09.2020&dateTo=07.09.2020 парсинг по дате - апи дает рендж сутки
         URL link = new URL(String.format("https://www.rbc.ru/v10/search/ajax/?offset=%d&limit=%d", offset, limitPerRequest));
         logger.info("Created new link: " + link);
         return link;

@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class DatabaseQueryService {
 
-    private static final String url = "jdbc:mysql://localhost:3306/newspage?useUnicode=true&serverTimezone=UTC";
-    private static final String user = "root";
-    private static final String password = "";
+    private static final String url = "jdbc:postgresql://localhost:5432/newspage?useUnicode=true&serverTimezone=UTC";
+    private static final String user = "postgres";
+    private static final String password = "root";
 
     private static Connection connection;
 //    private static Statement statement;
