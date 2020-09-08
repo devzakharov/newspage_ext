@@ -128,10 +128,12 @@ public class ArticleDao implements Dao<Article> {
     }
 
     public String getTagMap () throws SQLException {
-        String query = "SELECT count(flatArrayDistinct), flatArrayDistinct " +
-                "FROM articles," +
-                "LATERAL (SELECT unnest(news_keywords) FROM articles) as flatArrayDistinct" +
-                "GROUP BY articles.id, flatArrayDistinct";
+        String query = "with elements (element) as (" +
+                "select unnest(news_keywords) " +
+                "from articles" +
+                "select *, count(*)" +
+                "from elements" +
+                "group by element";
         ResultSet rs = db.getConnection().createStatement().executeQuery(query);
         rs.next();
         String tagList = rs.getString(1);
