@@ -1,17 +1,15 @@
 package com.zrv.newspage;
 
 import com.zrv.newspage.controller.ArticlesController;
+import com.zrv.newspage.controller.TagsController;
 import com.zrv.newspage.controller.UserLoginController;
 import com.zrv.newspage.controller.UserRegistrationController;
 import com.zrv.newspage.dao.ArticleDao;
-import com.zrv.newspage.service.ArticlesParseScheduler;
 import org.apache.log4j.BasicConfigurator;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
-
-import java.util.Timer;
 
 
 public class ArticlesPageApplication {
@@ -29,8 +27,8 @@ public class ArticlesPageApplication {
 //        htmlDataParser.fillDataObject();
 //        htmlDataParser.writeArticlesToDb();
 
-        ArticleDao ad = new ArticleDao();
-        System.out.println(ad.getTagList());
+//        ArticleDao ad = new ArticleDao();
+//        System.out.println(ad.getTagMap().toString());
 
 //        String[] tagArray = ad.getTagList().split(", ");
 //        for (int i = 0; i <= tagArray.length; i++) {
@@ -49,6 +47,7 @@ public class ArticlesPageApplication {
         servletHandler.addServletWithMapping(UserRegistrationController.class, "/register");
         servletHandler.addServletWithMapping(UserLoginController.class, "/login");
         servletHandler.addServletWithMapping(ArticlesController.class, "/articles");
+        servletHandler.addServletWithMapping(TagsController.class, "/tags");
         server.setHandler(servletHandler);
         server.start();
         System.out.println("Server started!");

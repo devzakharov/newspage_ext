@@ -1,12 +1,14 @@
 package com.zrv.newspage.controller;
 
+import com.zrv.newspage.service.TagsService;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class ArticlesController extends HttpServlet {
+public class TagsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -22,12 +24,21 @@ public class ArticlesController extends HttpServlet {
 
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
+        String json = "{\"status\":\"Ничего не произошло!\"}";
+
+        TagsService tagsService = new TagsService();
+
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         setAccessControlHeaders(resp);
         PrintWriter output = resp.getWriter();
-        if (req.getParameter("gettagcloud").equals("1")) {
-            output.println("true");
+        if (req.getParameter("getalltags").equals("1")) {
+            json = tagsService.getTagsJson();
+            output.write(json);
+        } else {
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            json = "{\"status\":\"Неудача при загрузке тегов!\"}";
+            output.write(json);
         }
     }
 

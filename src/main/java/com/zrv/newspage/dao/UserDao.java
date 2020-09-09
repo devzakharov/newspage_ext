@@ -2,7 +2,7 @@ package com.zrv.newspage.dao;
 
 import com.zrv.newspage.domain.User;
 import com.zrv.newspage.service.CryptoService;
-import com.zrv.newspage.service.DatabaseQueryService;
+import com.zrv.newspage.service.DatabaseConnectionService;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class UserDao implements Dao<User> {
 
     private final List<User> users = new ArrayList<>();
-    DatabaseQueryService db = new DatabaseQueryService();
+    DatabaseConnectionService db = new DatabaseConnectionService();
 
     @Override
     public Optional<User> get(long id) {

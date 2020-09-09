@@ -1,12 +1,10 @@
 package com.zrv.newspage.dao;
 
-import com.zrv.newspage.ArticlesPageApplication;
 import com.zrv.newspage.domain.Article;
-import com.zrv.newspage.service.DatabaseQueryService;
+import com.zrv.newspage.service.DatabaseConnectionService;
 import org.apache.log4j.Logger;
 
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -14,7 +12,7 @@ public class ArticleDao implements Dao<Article> {
 
     final static Logger logger = Logger.getLogger(ArticleDao.class);
 
-    DatabaseQueryService db = new DatabaseQueryService();
+    DatabaseConnectionService db = new DatabaseConnectionService();
 
     @Override
     public Optional<Article> get(long id) {
@@ -125,18 +123,5 @@ public class ArticleDao implements Dao<Article> {
     @Override
     public void delete(Article a) {
 
-    }
-
-    public String getTagMap () throws SQLException {
-        String query = "with elements (element) as (" +
-                "select unnest(news_keywords) " +
-                "from articles" +
-                "select *, count(*)" +
-                "from elements" +
-                "group by element";
-        ResultSet rs = db.getConnection().createStatement().executeQuery(query);
-        rs.next();
-        String tagList = rs.getString(1);
-        return tagList;
     }
 }
