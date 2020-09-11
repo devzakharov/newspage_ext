@@ -33,7 +33,7 @@ public class TagsController extends HttpServlet {
         setAccessControlHeaders(resp);
         PrintWriter output = resp.getWriter();
         if (req.getParameter("getalltags").equals("1")) {
-            json = tagsService.getTagsJson();
+            json = tagsService.getFilteredTagsJson();
             output.write(json);
         } else {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

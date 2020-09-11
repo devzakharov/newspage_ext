@@ -1,10 +1,15 @@
 package com.zrv.newspage.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zrv.newspage.service.ArticlesServiceImpl;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ArticlesController extends HttpServlet {
 
@@ -26,9 +31,26 @@ public class ArticlesController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         setAccessControlHeaders(resp);
         PrintWriter output = resp.getWriter();
-        if (req.getParameter("gettagcloud").equals("1")) {
-            output.println("true");
+        ArticlesServiceImpl articlesService = new ArticlesServiceImpl();
+
+        String jsonString = req.getReader().readLine();
+        ObjectMapper mapper = new ObjectMapper();
+
+        Map<String, Integer> jsonMap = null;
+
+        try {
+
+           jsonMap = mapper.readValue(jsonString, Map.class);
+
+           System.out.println(jsonMap);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        assert jsonMap != null;
+        articlesService.getArticlesList(jsonMap.get("limit"), jsonMap.get("offset"));
+
     }
 
     //for Preflight

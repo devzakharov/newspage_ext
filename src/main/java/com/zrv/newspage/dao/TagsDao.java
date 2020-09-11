@@ -48,7 +48,9 @@ public class TagsDao implements Dao<Tags> {
                 "from articles) " +
                 "select *, count(*) " +
                 "from elements " +
-                "group by element";
+                "group by element " +
+                "order by count(*) desc " +
+                "limit 40";
         ResultSet rs = db.getConnection().createStatement().executeQuery(query);
         Map<String, Integer> tagMap = new HashMap<>();
         while (rs.next()) {

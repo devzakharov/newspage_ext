@@ -5,6 +5,7 @@ import com.zrv.newspage.service.DatabaseConnectionService;
 import org.apache.log4j.Logger;
 
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -22,6 +23,26 @@ public class ArticleDao implements Dao<Article> {
     @Override
     public List<Article> getAll() throws SQLException {
         return null;
+    }
+
+    public List<Article> getAllFiltered(Integer limit, Integer offset) throws SQLException {
+        List<Article> filteredArticleList = new LinkedList<>();
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM articles");
+        query.append(" LIMIT ").append(limit);
+        query.append(" OFFSET ").append(offset).append(";");
+
+        // TODO обработать RS to List HERE
+        ResultSet rs = db.getConnection().createStatement().executeQuery(query.toString());
+
+        while (rs.next()) {
+            filteredArticleList.add(rs.getString("element"), rs.getInt("count"));
+        }
+        return filteredArticleList;
+
+
+        return filteredArticleList;
     }
 
     @Override
@@ -58,15 +79,6 @@ public class ArticleDao implements Dao<Article> {
         while (iterator.hasNext()) {
 
             Article article = iterator.next();
-//            if (iterator.hasNext()) {
-//                query.append(article.toQueryString());
-//                query.append(",");
-//            }
-
-//            if (!iterator.hasNext()) {
-//                query.append(article.toQueryString());
-//                query.append(";");
-//            }
 
             if (queryStringCounter < 4) {
                 query.append(article.toQueryString());
@@ -99,10 +111,6 @@ public class ArticleDao implements Dao<Article> {
 
         }
 
-//        logger.info(query.toString());
-
-//        System.out.println(query.toString());
-//        db.getStatement().executeUpdate(query.toString());
         queryList.forEach(queryListItem -> {
             try {
                 db.getConnection().prepareStatement(queryListItem).executeUpdate();

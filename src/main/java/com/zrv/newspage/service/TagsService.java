@@ -1,7 +1,5 @@
 package com.zrv.newspage.service;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zrv.newspage.dao.TagsDao;
 
@@ -9,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class TagsService {
 
@@ -24,9 +23,39 @@ public class TagsService {
         return tagsMap;
     }
 
-    public String getTagsJson () throws IOException {
+    public String getFilteredTagsJson () throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(getTagsMap());
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(getFilteredTagsMap());
+    }
+
+    public Map<String, Integer> getFilteredTagsMap() {
+
+        Map<String, Integer> tagsMap = getTagsMap();
+        Map<String, Integer> filteredTagsMap = new HashMap<>();
+
+        int maxTagValue = getMaxTagValue(tagsMap);
+
+        tagsMap.forEach((k,v) -> {
+            if (v == maxTagValue) {
+                filteredTagsMap.put(k, 5);
+            } else if (v > maxTagValue / 2) {
+                filteredTagsMap.put(k, 4);
+            } else if (v == maxTagValue / 2) {
+                filteredTagsMap.put(k, 3);
+            } else if (v < maxTagValue / 2) {
+                filteredTagsMap.put(k, 3);
+            }
+        });
+
+        return filteredTagsMap;
+    }
+
+    public <K, V extends Comparable<V>> V getMaxTagValue(Map<K, V> map) {
+        Optional<Map.Entry<K, V>> maxEntry = map.entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue());
+
+        return maxEntry.get().getValue();
     }
 }
