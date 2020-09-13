@@ -1,12 +1,14 @@
 package com.zrv.newspage.dao;
 
 import com.zrv.newspage.domain.Article;
+import com.zrv.newspage.domain.RawPhoto;
 import com.zrv.newspage.service.DatabaseConnectionService;
 import org.apache.log4j.Logger;
 
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class ArticleDao implements Dao<Article> {
@@ -29,20 +31,41 @@ public class ArticleDao implements Dao<Article> {
         List<Article> filteredArticleList = new LinkedList<>();
 
         StringBuilder query = new StringBuilder();
-        query.append("SELECT * FROM articles");
+        query.append("SELECT * FROM articles ");
+        query.append("ORDER BY publish_date DESC");
         query.append(" LIMIT ").append(limit);
         query.append(" OFFSET ").append(offset).append(";");
 
-        // TODO обработать RS to List HERE
         ResultSet rs = db.getConnection().createStatement().executeQuery(query.toString());
 
         while (rs.next()) {
-            filteredArticleList.add(rs.getString("element"), rs.getInt("count"));
+
+            Article currentArticle = new Article();
+            RawPhoto currentRawPhoto = new RawPhoto();
+
+            currentRawPhoto.setUrl(rs.getString("photo"));
+
+            currentArticle.setId(rs.getString("id"));
+            currentArticle.setDescription(rs.getString("description"));
+            currentArticle.setNewsKeywords(rs.getString("news_keywords"));
+            currentArticle.setImage(rs.getString("image"));
+            currentArticle.setArticleHtml(rs.getString("article_html"));
+            currentArticle.setFrontUrl(rs.getString("front_url"));
+            currentArticle.setTitle(rs.getString("title"));
+            currentArticle.setPhoto(currentRawPhoto);
+            currentArticle.setProject(rs.getString("project"));
+            currentArticle.setCategory(rs.getString("category"));
+            currentArticle.setOpinionAuthors(rs.getString("opinion_authors"));
+            currentArticle.setAnons(rs.getString("anons"));
+            currentArticle.setPublishDate(rs.getTimestamp("publish_date"));
+            currentArticle.setParsedDate(rs.getTimestamp("parsed_date"));
+
+            filteredArticleList.add(currentArticle);
         }
+
+        System.out.println(filteredArticleList.size());
         return filteredArticleList;
 
-
-        return filteredArticleList;
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DatabaseConnectionService {
 
-    private static final String url = "jdbc:postgresql://localhost:5432/newspage?useUnicode=true&serverTimezone=UTC";
+    private static final String url = "jdbc:postgresql://localhost:5432/postgres?useUnicode=true&serverTimezone=UTC";
     private static final String user = "postgres";
     private static final String password = "root";
 

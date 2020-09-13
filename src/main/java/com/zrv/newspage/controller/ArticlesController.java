@@ -1,14 +1,19 @@
 package com.zrv.newspage.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zrv.newspage.domain.Article;
 import com.zrv.newspage.service.ArticlesServiceImpl;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class ArticlesController extends HttpServlet {
@@ -16,16 +21,24 @@ public class ArticlesController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        handleRequest(req, resp);
+        try {
+            handleRequest(req, resp);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        handleRequest(req, resp);
+        try {
+            handleRequest(req, resp);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
@@ -33,24 +46,39 @@ public class ArticlesController extends HttpServlet {
         PrintWriter output = resp.getWriter();
         ArticlesServiceImpl articlesService = new ArticlesServiceImpl();
 
-        String jsonString = req.getReader().readLine();
+        // String jsonString = req.getReader().readLine();
         ObjectMapper mapper = new ObjectMapper();
 
-        Map<String, Integer> jsonMap = null;
+        HashMap<String, Integer> jsonMap = null;
 
-        try {
+        List<Article> requestedList = new LinkedList<>();
 
-           jsonMap = mapper.readValue(jsonString, Map.class);
+//        if (jsonString != "{}") {
+//            try {
+//
+//                jsonMap = mapper.readValue(jsonString, HashMap.class);
+//
+//                System.out.println(jsonMap);
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        assert jsonMap != null;
+//
+//        // here is list of requested articles
+//       requestedList =  articlesService.getArticlesList(jsonMap.get("limit"), jsonMap.get("offset"));
 
-           System.out.println(jsonMap);
+//        } else {
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+           requestedList = articlesService.getArticlesList(
+                   Integer.parseInt(req.getParameter("limit")),
+                   Integer.parseInt(req.getParameter("offset"))
+           );
+//        }
 
-        assert jsonMap != null;
-        articlesService.getArticlesList(jsonMap.get("limit"), jsonMap.get("offset"));
 
+
+        output.write(mapper.writeValueAsString(requestedList));
     }
 
     //for Preflight
