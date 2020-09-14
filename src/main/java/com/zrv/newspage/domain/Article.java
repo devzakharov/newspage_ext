@@ -19,7 +19,7 @@ public class Article {
     private String opinionAuthors;
     private String anons;
     private Timestamp publishDate;
-    private final Timestamp parsedDate = new java.sql.Timestamp(new java.util.Date().getTime());
+    private Timestamp parsedDate = new java.sql.Timestamp(new java.util.Date().getTime());
 
     public Article() {
 
@@ -131,6 +131,10 @@ public class Article {
 
     public Timestamp getParsedDate() {
         return parsedDate;
+    }
+
+    public void setParsedDate(Timestamp parsedDate) {
+        this.parsedDate = parsedDate;
     }
 
     public String toQueryString() {

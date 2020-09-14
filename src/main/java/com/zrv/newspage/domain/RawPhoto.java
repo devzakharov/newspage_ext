@@ -2,7 +2,7 @@ package com.zrv.newspage.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-class RawPhoto {
+public class RawPhoto {
 
     @JsonProperty("url")
     private String url;

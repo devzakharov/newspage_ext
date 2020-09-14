@@ -5,11 +5,14 @@ import com.zrv.newspage.controller.TagsController;
 import com.zrv.newspage.controller.UserLoginController;
 import com.zrv.newspage.controller.UserRegistrationController;
 import com.zrv.newspage.dao.ArticleDao;
+import com.zrv.newspage.service.ArticlesParseScheduler;
 import org.apache.log4j.BasicConfigurator;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
+
+import java.util.Timer;
 
 
 public class ArticlesPageApplication {
@@ -35,9 +38,9 @@ public class ArticlesPageApplication {
 //
 //        }
 
-//        Timer time = new Timer();
-//        ArticlesParseScheduler s = new ArticlesParseScheduler();
-//        time.schedule(s, 0, 3600000);
+        Timer time = new Timer();
+        ArticlesParseScheduler s = new ArticlesParseScheduler();
+        time.schedule(s, 0, 3600000);
 
         Server server = new Server();
         ServerConnector connector = new ServerConnector(server);

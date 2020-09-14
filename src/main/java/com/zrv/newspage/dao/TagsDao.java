@@ -5,10 +5,7 @@ import com.zrv.newspage.service.DatabaseConnectionService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class TagsDao implements Dao<Tags> {
 
@@ -52,7 +49,7 @@ public class TagsDao implements Dao<Tags> {
                 "order by count(*) desc " +
                 "limit 40";
         ResultSet rs = db.getConnection().createStatement().executeQuery(query);
-        Map<String, Integer> tagMap = new HashMap<>();
+        Map<String, Integer> tagMap = new LinkedHashMap<>();
         while (rs.next()) {
             tagMap.put(rs.getString("element"), rs.getInt("count"));
         }
