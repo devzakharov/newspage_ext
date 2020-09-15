@@ -72,7 +72,8 @@ public class ArticlesController extends HttpServlet {
 
            requestedList = articlesService.getArticlesList(
                    Integer.parseInt(req.getParameter("limit")),
-                   Integer.parseInt(req.getParameter("offset"))
+                   Integer.parseInt(req.getParameter("offset")),
+                   req.getParameter("tags")
            );
 //        }
 

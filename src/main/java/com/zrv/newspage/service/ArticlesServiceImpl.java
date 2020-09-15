@@ -19,8 +19,9 @@ public class ArticlesServiceImpl implements ArticlesService {
 
     }
 
-    public List<Article> getArticlesList(Integer limit, Integer offset) throws SQLException {
+    public List<Article> getArticlesList(Integer limit, Integer offset, String tags) throws SQLException {
         ArticleDao articleDao = new ArticleDao();
-        return articleDao.getAllFiltered(limit, offset);
+        String[] tagsArray = tags.split(",");
+        return articleDao.getAllFiltered(limit, offset, tagsArray);
     }
 }

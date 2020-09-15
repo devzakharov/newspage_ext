@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ArticleDao implements Dao<Article> {
 
@@ -27,14 +28,22 @@ public class ArticleDao implements Dao<Article> {
         return null;
     }
 
-    public List<Article> getAllFiltered(Integer limit, Integer offset) throws SQLException {
+    public List<Article> getAllFiltered(Integer limit, Integer offset, String[] tagsArray) throws SQLException {
+
         List<Article> filteredArticleList = new LinkedList<>();
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM articles ");
-        query.append("ORDER BY publish_date DESC");
+        if (!tagsArray[0].equals("")) {
+            query.append("WHERE news_keywords @> '{");
+            query.append(String.join(",", tagsArray));
+            query.append("}'");
+        }
+        query.append(" ORDER BY publish_date DESC ");
         query.append(" LIMIT ").append(limit);
         query.append(" OFFSET ").append(offset).append(";");
+
+        System.out.println(query);
 
         ResultSet rs = db.getConnection().createStatement().executeQuery(query.toString());
 
