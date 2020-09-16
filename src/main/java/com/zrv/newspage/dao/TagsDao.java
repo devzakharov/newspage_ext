@@ -12,7 +12,7 @@ public class TagsDao implements Dao<Tags> {
     DatabaseConnectionService db = new DatabaseConnectionService();
 
     @Override
-    public Optional<Tags> get(long id) {
+    public Optional<Tags> get(String id) {
         // not a usable method
         return Optional.empty();
     }

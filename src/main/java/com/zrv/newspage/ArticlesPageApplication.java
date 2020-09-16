@@ -1,9 +1,6 @@
 package com.zrv.newspage;
 
-import com.zrv.newspage.controller.ArticlesController;
-import com.zrv.newspage.controller.TagsController;
-import com.zrv.newspage.controller.UserLoginController;
-import com.zrv.newspage.controller.UserRegistrationController;
+import com.zrv.newspage.controller.*;
 import com.zrv.newspage.dao.ArticleDao;
 import com.zrv.newspage.service.ArticlesParseScheduler;
 import org.apache.log4j.BasicConfigurator;
@@ -50,6 +47,7 @@ public class ArticlesPageApplication {
         servletHandler.addServletWithMapping(UserRegistrationController.class, "/register");
         servletHandler.addServletWithMapping(UserLoginController.class, "/login");
         servletHandler.addServletWithMapping(ArticlesController.class, "/articles");
+        servletHandler.addServletWithMapping(ArticleController.class, "/article");
         servletHandler.addServletWithMapping(TagsController.class, "/tags");
         server.setHandler(servletHandler);
         server.start();

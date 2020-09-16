@@ -20,8 +20,8 @@ public class UserDao implements Dao<User> {
     DatabaseConnectionService db = new DatabaseConnectionService();
 
     @Override
-    public Optional<User> get(long id) {
-        return Optional.ofNullable(users.get((int) id));
+    public Optional<User> get(String id) {
+        return Optional.ofNullable(users.get(Integer.parseInt(id)));
     }
 
     public UserDao() {

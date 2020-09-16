@@ -19,8 +19,40 @@ public class ArticleDao implements Dao<Article> {
     DatabaseConnectionService db = new DatabaseConnectionService();
 
     @Override
-    public Optional<Article> get(long id) {
-        return Optional.empty();
+    public Optional<Article> get(String id) throws SQLException {
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM articles ");
+        query.append("WHERE id LIKE '").append(id).append("'");
+        query.append(" LIMIT 1");
+        ResultSet rs = db.getConnection().createStatement().executeQuery(query.toString());
+        if (!rs.next()) {
+            return Optional.empty();
+        } else {
+
+            Article article = new Article();
+            RawPhoto currentRawPhoto = new RawPhoto();
+
+            currentRawPhoto.setUrl(rs.getString("photo"));
+
+            article.setId(rs.getString("id"));
+            article.setDescription(rs.getString("description"));
+            article.setNewsKeywords(rs.getString("news_keywords"));
+            article.setImage(rs.getString("image"));
+            article.setArticleHtml(rs.getString("article_html"));
+            article.setFrontUrl(rs.getString("front_url"));
+            article.setTitle(rs.getString("title"));
+            article.setPhoto(currentRawPhoto);
+            article.setProject(rs.getString("project"));
+            article.setCategory(rs.getString("category"));
+            article.setOpinionAuthors(rs.getString("opinion_authors"));
+            article.setAnons(rs.getString("anons"));
+            article.setPublishDate(rs.getTimestamp("publish_date"));
+            article.setParsedDate(rs.getTimestamp("parsed_date"));
+
+            return Optional.of(article);
+        }
+
     }
 
     @Override
