@@ -60,7 +60,7 @@ public class ArticleDao implements Dao<Article> {
         return null;
     }
 
-    public List<Article> getAllFiltered(Integer limit, Integer offset, String[] tagsArray) throws SQLException {
+    public List<Article> getAllFiltered(Integer limit, Integer offset, String[] tagsArray, String from, String to) throws SQLException {
 
         List<Article> filteredArticleList = new LinkedList<>();
 
@@ -70,10 +70,22 @@ public class ArticleDao implements Dao<Article> {
             query.append("WHERE news_keywords @> '{");
             query.append(String.join(",", tagsArray));
             query.append("}'");
+            if(!from.equals("undefined")||!to.equals("undefined")) {
+                query.append(" AND ");
+            }
+        } else if(!from.equals("undefined")&&!to.equals("undefined")) {
+            query.append(" WHERE ");
+        }
+        if (!from.equals("undefined")&&!to.equals("undefined")) {
+            query.append(" publish_date BETWEEN '").append(Timestamp.valueOf(from + " 00:00:00")).append("'::timestamp");
+            query.append(" AND '").append(Timestamp.valueOf(to+ " 00:00:00")).append("'::timestamp");
         }
         query.append(" ORDER BY publish_date DESC ");
         query.append(" LIMIT ").append(limit);
         query.append(" OFFSET ").append(offset).append(";");
+
+        System.out.println("From: " + from);
+        System.out.println("To: " + to);
 
         System.out.println(query);
 

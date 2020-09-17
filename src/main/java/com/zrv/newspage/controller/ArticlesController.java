@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class ArticlesController extends HttpServlet {
 
         try {
             handleRequest(req, resp);
-        } catch (SQLException e) {
+        } catch (SQLException | ParseException e) {
             e.printStackTrace();
         }
     }
@@ -33,12 +34,12 @@ public class ArticlesController extends HttpServlet {
 
         try {
             handleRequest(req, resp);
-        } catch (SQLException e) {
+        } catch (SQLException | ParseException e) {
             e.printStackTrace();
         }
     }
 
-    public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
+    public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException, ParseException {
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
@@ -73,7 +74,9 @@ public class ArticlesController extends HttpServlet {
            requestedList = articlesService.getArticlesList(
                    Integer.parseInt(req.getParameter("limit")),
                    Integer.parseInt(req.getParameter("offset")),
-                   req.getParameter("tags")
+                   req.getParameter("tags"),
+                   req.getParameter("fromDate"),
+                   req.getParameter("toDate")
            );
 //        }
 
