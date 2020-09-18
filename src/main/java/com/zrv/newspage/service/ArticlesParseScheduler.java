@@ -9,6 +9,7 @@ import java.util.TimerTask;
 
 public class ArticlesParseScheduler extends TimerTask {
 
+    // TODO настроить адекватные события для логера
     final static Logger logger = Logger.getLogger(ArticlesParseScheduler.class);
 
     @Override

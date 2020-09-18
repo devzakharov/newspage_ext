@@ -2,7 +2,6 @@ package com.zrv.newspage.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class PreviewArticle {

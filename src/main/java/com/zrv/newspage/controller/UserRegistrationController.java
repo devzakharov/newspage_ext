@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 
 public class UserRegistrationController extends HttpServlet {
 
+    // TODO настроить адекватные события для логера
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -34,6 +36,7 @@ public class UserRegistrationController extends HttpServlet {
         handleRequest(req, resp);
     }
 
+    // TODO разнести логику по методам
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

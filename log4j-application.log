@@ -303,3 +303,101 @@
 2020-09-17 17:37:03 INFO  ArticlesJsonDataParser:61 - Created new link: https://www.rbc.ru/v10/search/ajax/?offset=0&limit=100
 2020-09-17 17:37:06 INFO  ArticlesJsonDataParser:61 - Created new link: https://www.rbc.ru/v10/search/ajax/?offset=100&limit=100
 2020-09-17 17:39:56 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-17 18:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-17 18:39:58 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-17 19:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-17 19:39:29 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-17 20:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-17 20:39:23 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-17 21:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-17 21:39:42 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-17 22:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-17 22:39:36 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-17 23:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-17 23:39:27 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 00:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 00:39:30 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 01:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 01:39:36 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 02:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 02:39:27 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 03:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 03:39:32 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 04:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 04:39:19 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 05:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 05:39:26 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 06:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 06:39:36 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 07:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 07:39:36 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 08:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 08:39:24 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 09:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 09:39:58 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 10:37:02 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 10:39:33 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 11:23:34 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 11:23:37 INFO  ArticlesJsonDataParser:61 - Created new link: https://www.rbc.ru/v10/search/ajax/?offset=0&limit=100
+2020-09-18 11:23:40 INFO  ArticlesJsonDataParser:61 - Created new link: https://www.rbc.ru/v10/search/ajax/?offset=100&limit=100
+2020-09-18 11:26:15 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 12:23:34 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 12:26:13 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 12:47:38 DEBUG logging:22 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2020-09-18 12:47:38 INFO  Version:21 - HV000001: Hibernate Validator 6.1.5.Final
+2020-09-18 12:47:38 DEBUG ValidationXmlParser:120 - Trying to load META-INF/validation.xml for XML based Validator configuration.
+2020-09-18 12:47:38 DEBUG ResourceLoaderHelper:60 - Trying to load META-INF/validation.xml via TCCL
+2020-09-18 12:47:38 DEBUG ResourceLoaderHelper:66 - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2020-09-18 12:47:38 DEBUG ValidationXmlParser:127 - No META-INF/validation.xml found. Using annotation based configuration only.
+2020-09-18 12:47:38 DEBUG TraversableResolvers:60 - Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2020-09-18 12:47:38 DEBUG ResourceBundleMessageInterpolator:172 - Loaded expression factory via original TCCL
+2020-09-18 12:47:39 DEBUG ValidatorFactoryConfigurationHelper:300 - HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2020-09-18 12:47:39 DEBUG ValidatorFactoryConfigurationHelper:375 - HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2020-09-18 12:47:39 DEBUG ValidatorFactoryConfigurationHelper:376 - HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2020-09-18 12:47:39 DEBUG ValidatorFactoryConfigurationHelper:377 - HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2020-09-18 12:47:39 DEBUG ValidatorFactoryConfigurationHelper:378 - HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2020-09-18 12:47:39 DEBUG ValidatorFactoryConfigurationHelper:379 - HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2020-09-18 12:47:41 DEBUG ValidationXmlParser:120 - Trying to load META-INF/validation.xml for XML based Validator configuration.
+2020-09-18 12:47:41 DEBUG ResourceLoaderHelper:60 - Trying to load META-INF/validation.xml via TCCL
+2020-09-18 12:47:41 DEBUG ResourceLoaderHelper:66 - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2020-09-18 12:47:41 DEBUG ValidationXmlParser:127 - No META-INF/validation.xml found. Using annotation based configuration only.
+2020-09-18 12:47:41 DEBUG TraversableResolvers:60 - Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2020-09-18 12:47:41 DEBUG ResourceBundleMessageInterpolator:172 - Loaded expression factory via original TCCL
+2020-09-18 12:47:41 DEBUG ValidatorFactoryConfigurationHelper:300 - HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2020-09-18 12:47:41 DEBUG ValidatorFactoryConfigurationHelper:375 - HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2020-09-18 12:47:41 DEBUG ValidatorFactoryConfigurationHelper:376 - HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2020-09-18 12:47:41 DEBUG ValidatorFactoryConfigurationHelper:377 - HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2020-09-18 12:47:41 DEBUG ValidatorFactoryConfigurationHelper:378 - HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2020-09-18 12:47:41 DEBUG ValidatorFactoryConfigurationHelper:379 - HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2020-09-18 12:47:41 DEBUG ValidationXmlParser:120 - Trying to load META-INF/validation.xml for XML based Validator configuration.
+2020-09-18 12:47:41 DEBUG ResourceLoaderHelper:60 - Trying to load META-INF/validation.xml via TCCL
+2020-09-18 12:47:41 DEBUG ResourceLoaderHelper:66 - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2020-09-18 12:47:41 DEBUG ValidationXmlParser:127 - No META-INF/validation.xml found. Using annotation based configuration only.
+2020-09-18 12:47:41 DEBUG TraversableResolvers:60 - Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2020-09-18 12:47:41 DEBUG ResourceBundleMessageInterpolator:172 - Loaded expression factory via original TCCL
+2020-09-18 12:47:41 DEBUG ValidatorFactoryConfigurationHelper:300 - HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2020-09-18 12:47:41 DEBUG ValidatorFactoryConfigurationHelper:375 - HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2020-09-18 12:47:41 DEBUG ValidatorFactoryConfigurationHelper:376 - HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2020-09-18 12:47:41 DEBUG ValidatorFactoryConfigurationHelper:377 - HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2020-09-18 12:47:41 DEBUG ValidatorFactoryConfigurationHelper:378 - HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2020-09-18 12:47:41 DEBUG ValidatorFactoryConfigurationHelper:379 - HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2020-09-18 12:47:54 DEBUG ValidationXmlParser:120 - Trying to load META-INF/validation.xml for XML based Validator configuration.
+2020-09-18 12:47:54 DEBUG ResourceLoaderHelper:60 - Trying to load META-INF/validation.xml via TCCL
+2020-09-18 12:47:54 DEBUG ResourceLoaderHelper:66 - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2020-09-18 12:47:54 DEBUG ValidationXmlParser:127 - No META-INF/validation.xml found. Using annotation based configuration only.
+2020-09-18 12:47:54 DEBUG TraversableResolvers:60 - Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2020-09-18 12:47:54 DEBUG ResourceBundleMessageInterpolator:172 - Loaded expression factory via original TCCL
+2020-09-18 12:47:54 DEBUG ValidatorFactoryConfigurationHelper:300 - HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2020-09-18 12:47:54 DEBUG ValidatorFactoryConfigurationHelper:375 - HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2020-09-18 12:47:54 DEBUG ValidatorFactoryConfigurationHelper:376 - HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2020-09-18 12:47:54 DEBUG ValidatorFactoryConfigurationHelper:377 - HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2020-09-18 12:47:54 DEBUG ValidatorFactoryConfigurationHelper:378 - HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2020-09-18 12:47:54 DEBUG ValidatorFactoryConfigurationHelper:379 - HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2020-09-18 13:23:34 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 13:26:06 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 14:23:34 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 14:26:27 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 15:23:34 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 15:26:08 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
+2020-09-18 16:23:34 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-18 16:26:12 INFO  ArticlesParseScheduler:29 - Scheduled task is finished

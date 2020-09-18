@@ -3,7 +3,6 @@ package com.zrv.newspage.service;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 public class CryptoService {
 
@@ -22,8 +21,8 @@ public class CryptoService {
 
     public String getHashString(String originalString) {
 
-        byte[] encodedhash = messageDigest.digest(originalString.getBytes(StandardCharsets.UTF_8));
-        return bytesToHex(encodedhash);
+        byte[] encodedHash = messageDigest.digest(originalString.getBytes(StandardCharsets.UTF_8));
+        return bytesToHex(encodedHash);
     }
 
     public Boolean compareHashStrings(String str1, String str2) {

@@ -9,6 +9,8 @@ import java.util.*;
 
 public class TagsDao implements Dao<Tags> {
 
+    // TODO настроить адекватные события для логера
+
     DatabaseConnectionService db = new DatabaseConnectionService();
 
     @Override
@@ -37,7 +39,7 @@ public class TagsDao implements Dao<Tags> {
     public void delete(Tags tags) {
         // not a usable method
     }
-
+    // TODO переписать на препейред стейтмент
     public Map<String, Integer> getTagsMap() throws SQLException {
 
         String query = "with elements (element) as (" +
@@ -49,6 +51,7 @@ public class TagsDao implements Dao<Tags> {
                 "order by count(*) desc " +
                 "limit 40";
         ResultSet rs = db.getConnection().createStatement().executeQuery(query);
+        //TODO Вынести логику формирования мапы
         Map<String, Integer> tagMap = new LinkedHashMap<>();
         while (rs.next()) {
             tagMap.put(rs.getString("element"), rs.getInt("count"));

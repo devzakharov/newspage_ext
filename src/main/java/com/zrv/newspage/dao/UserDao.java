@@ -16,6 +16,8 @@ import java.util.Optional;
 
 public class UserDao implements Dao<User> {
 
+    // TODO настроить адекватные события для логера
+
     private final List<User> users = new ArrayList<>();
     DatabaseConnectionService db = new DatabaseConnectionService();
 
@@ -31,6 +33,8 @@ public class UserDao implements Dao<User> {
     @Override
     public List<User> getAll() throws SQLException {
         ResultSet rs = db.getConnection().prepareStatement("SELECT * FROM users").getResultSet();
+
+        // TODO вынести формирование листа в метод
         while (rs.next()) {
             int id = rs.getInt("id");
             String login = rs.getString("login");
@@ -46,6 +50,7 @@ public class UserDao implements Dao<User> {
         return users;
     }
 
+    // TODO переименовать метод
     public Integer getUserByLogin(User user) throws SQLException {
 
         String query = "";

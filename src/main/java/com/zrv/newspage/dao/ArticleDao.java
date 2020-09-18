@@ -1,26 +1,24 @@
 package com.zrv.newspage.dao;
-
 import com.zrv.newspage.domain.Article;
 import com.zrv.newspage.domain.RawPhoto;
 import com.zrv.newspage.service.DatabaseConnectionService;
 import org.apache.log4j.Logger;
-
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 public class ArticleDao implements Dao<Article> {
 
+    // TODO настроить адекватные события для логера
     final static Logger logger = Logger.getLogger(ArticleDao.class);
-
     DatabaseConnectionService db = new DatabaseConnectionService();
 
     @Override
     public Optional<Article> get(String id) throws SQLException {
 
+        // TODO переписать на PreparedStatement https://metanit.com/java/database/2.6.php
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM articles ");
         query.append("WHERE id LIKE '").append(id).append("'");
@@ -30,6 +28,7 @@ public class ArticleDao implements Dao<Article> {
             return Optional.empty();
         } else {
 
+            // TODO Вынести в метод заполнение объекта
             Article article = new Article();
             RawPhoto currentRawPhoto = new RawPhoto();
 
@@ -60,10 +59,12 @@ public class ArticleDao implements Dao<Article> {
         return null;
     }
 
-    public List<Article> getAllFiltered(Integer limit, Integer offset, String[] tagsArray, String from, String to) throws SQLException {
+    public List<Article> getAllFiltered(
+            Integer limit, Integer offset, String[] tagsArray, String from, String to
+    ) throws SQLException {
 
         List<Article> filteredArticleList = new LinkedList<>();
-
+        // TODO переписать на PreparedStatement https://metanit.com/java/database/2.6.php
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM articles ");
         if (!tagsArray[0].equals("")) {
@@ -84,13 +85,11 @@ public class ArticleDao implements Dao<Article> {
         query.append(" LIMIT ").append(limit);
         query.append(" OFFSET ").append(offset).append(";");
 
-        System.out.println("From: " + from);
-        System.out.println("To: " + to);
-
         System.out.println(query);
 
         ResultSet rs = db.getConnection().createStatement().executeQuery(query.toString());
 
+        // TODO Вынести в метод заполнение объекта
         while (rs.next()) {
 
             Article currentArticle = new Article();
@@ -126,11 +125,13 @@ public class ArticleDao implements Dao<Article> {
 
     }
 
+    // TODO разделить на методы составление запроса, составление листа запросов
     public void save(Set<Article> articleSet) throws SQLException {
 
         Iterator<Article> iterator = articleSet.iterator();
         List<String> queryList = new LinkedList<>();
 
+        // TODO переписать на PreparedStatement https://metanit.com/java/database/2.6.php
         StringBuilder query = new StringBuilder();
         query.append(
                 "INSERT INTO articles (" +

@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 
 public class UserLoginController extends HttpServlet {
 
+    // TODO настроить адекватные события для логера
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
@@ -31,6 +33,8 @@ public class UserLoginController extends HttpServlet {
         StringBuffer stringBuffer = new StringBuffer();
         String line = "";
         BufferedReader reader = req.getReader();
+
+        // TODO реализовать UserLoginService
 
         try {
             while ((line = reader.readLine()) != null)

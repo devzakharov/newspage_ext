@@ -4,7 +4,6 @@ import com.zrv.newspage.dao.ArticleDao;
 import com.zrv.newspage.domain.Article;
 
 import java.sql.SQLException;
-import java.util.Optional;
 
 public class ArticleService {
 

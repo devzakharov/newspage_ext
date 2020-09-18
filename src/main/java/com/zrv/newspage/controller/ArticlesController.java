@@ -19,6 +19,8 @@ import java.util.Map;
 
 public class ArticlesController extends HttpServlet {
 
+    // TODO настроить адекватные события для логера
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 

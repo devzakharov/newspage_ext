@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 
 public class TagsController extends HttpServlet {
 
+    // TODO настроить адекватные события для логера
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
@@ -24,7 +26,7 @@ public class TagsController extends HttpServlet {
 
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        String json = "{\"status\":\"Ничего не произошло!\"}";
+        String json;
 
         TagsService tagsService = new TagsService();
 

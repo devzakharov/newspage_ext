@@ -12,6 +12,9 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 public class ArticleController extends HttpServlet {
+
+    // TODO настроить адекватные события для логера
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
@@ -49,6 +52,7 @@ public class ArticleController extends HttpServlet {
 
     }
 
+    // TODO создать объект с дуОпшнс и сетХедерс ???
     //for Preflight
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp) {
