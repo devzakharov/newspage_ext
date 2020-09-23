@@ -49,6 +49,7 @@ public class ArticlesPageApplication {
         servletHandler.addServletWithMapping(ArticlesController.class, "/articles");
         servletHandler.addServletWithMapping(ArticleController.class, "/article");
         servletHandler.addServletWithMapping(TagsController.class, "/tags");
+        servletHandler.addServletWithMapping(SuggestionsController.class, "/suggestions");
         server.setHandler(servletHandler);
         server.start();
         System.out.println("Server started!");

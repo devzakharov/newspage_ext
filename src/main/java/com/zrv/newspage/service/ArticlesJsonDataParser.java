@@ -21,7 +21,7 @@ public class ArticlesJsonDataParser {
     private static ArticlesJsonDataParser instance;
     final static int limitPerRequest = 100; // Ограничение api - 100
     int offset = 0; //стартовый сдвиг
-    int articlesCountLimit = 200;
+    int articlesCountLimit = 400;
     Set<PreviewArticle> previewArticleSet = new HashSet<>();
 
     private ArticlesJsonDataParser() throws IOException {

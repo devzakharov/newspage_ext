@@ -19,7 +19,6 @@ public class UserDao implements Dao<User> {
     // TODO настроить адекватные события для логера
 
     private final List<User> users = new ArrayList<>();
-    DatabaseConnectionService db = new DatabaseConnectionService();
 
     @Override
     public Optional<User> get(String id) {
@@ -32,8 +31,9 @@ public class UserDao implements Dao<User> {
 
     @Override
     public List<User> getAll() throws SQLException {
+        DatabaseConnectionService db = new DatabaseConnectionService();
         ResultSet rs = db.getConnection().prepareStatement("SELECT * FROM users").getResultSet();
-
+        db.closeConnection();
         // TODO вынести формирование листа в метод
         while (rs.next()) {
             int id = rs.getInt("id");
@@ -55,6 +55,8 @@ public class UserDao implements Dao<User> {
 
         String query = "";
         int count = 0;
+        DatabaseConnectionService db = new DatabaseConnectionService();
+
 
         query = String.format(
                 "SELECT count(*) FROM users WHERE login = '%s' OR email = '%s'",
@@ -65,6 +67,7 @@ public class UserDao implements Dao<User> {
         try {
 
             ResultSet rs = db.getConnection().createStatement().executeQuery(query);
+            db.closeConnection();
 
             if (rs != null && rs.next()) {
                 count = rs.getInt(1);
@@ -85,6 +88,7 @@ public class UserDao implements Dao<User> {
     public void save(User user) throws SQLException {
 
         String query = "";
+        DatabaseConnectionService db = new DatabaseConnectionService();
 
         try {
             query = String.format(
@@ -102,6 +106,8 @@ public class UserDao implements Dao<User> {
         }
 
         ResultSet rs = db.getConnection().createStatement().getGeneratedKeys();
+        db.closeConnection();
+
 
         int id = -1;
 
@@ -117,7 +123,6 @@ public class UserDao implements Dao<User> {
         user.setLogin(Objects.requireNonNull(params[0], "Login cannot be null"));
         user.setEmail(Objects.requireNonNull(params[1], "Email cannot be null"));
         user.setPassword(Objects.requireNonNull(params[2], "Password cannot be null"));
-        // user.setRole(Objects.requireNonNull(params[3]));
 
         users.add(user);
     }

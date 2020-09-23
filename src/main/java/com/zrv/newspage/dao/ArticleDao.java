@@ -3,9 +3,8 @@ import com.zrv.newspage.domain.Article;
 import com.zrv.newspage.domain.RawPhoto;
 import com.zrv.newspage.service.DatabaseConnectionService;
 import org.apache.log4j.Logger;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+
+import java.sql.*;
 import java.util.*;
 
 
@@ -13,10 +12,10 @@ public class ArticleDao implements Dao<Article> {
 
     // TODO настроить адекватные события для логера
     final static Logger logger = Logger.getLogger(ArticleDao.class);
-    DatabaseConnectionService db = new DatabaseConnectionService();
 
     @Override
     public Optional<Article> get(String id) throws SQLException {
+        DatabaseConnectionService db = new DatabaseConnectionService();
 
         // TODO переписать на PreparedStatement https://metanit.com/java/database/2.6.php
         StringBuilder query = new StringBuilder();
@@ -24,6 +23,7 @@ public class ArticleDao implements Dao<Article> {
         query.append("WHERE id LIKE '").append(id).append("'");
         query.append(" LIMIT 1");
         ResultSet rs = db.getConnection().createStatement().executeQuery(query.toString());
+        db.closeConnection();
         if (!rs.next()) {
             return Optional.empty();
         } else {
@@ -50,6 +50,7 @@ public class ArticleDao implements Dao<Article> {
             article.setParsedDate(rs.getTimestamp("parsed_date"));
 
             return Optional.of(article);
+
         }
 
     }
@@ -87,7 +88,10 @@ public class ArticleDao implements Dao<Article> {
 
         System.out.println(query);
 
+        DatabaseConnectionService db = new DatabaseConnectionService();
+
         ResultSet rs = db.getConnection().createStatement().executeQuery(query.toString());
+        db.closeConnection();
 
         // TODO Вынести в метод заполнение объекта
         while (rs.next()) {
@@ -187,6 +191,7 @@ public class ArticleDao implements Dao<Article> {
             }
 
         }
+        DatabaseConnectionService db = new DatabaseConnectionService();
 
         queryList.forEach(queryListItem -> {
             try {
@@ -197,6 +202,7 @@ public class ArticleDao implements Dao<Article> {
                 logger.warn(e.getMessage());
             }
         });
+        db.closeConnection();
 
     }
 
@@ -208,5 +214,61 @@ public class ArticleDao implements Dao<Article> {
     @Override
     public void delete(Article a) {
 
+    }
+
+    public List<Article> getSearchResult(String searchQuery) throws SQLException {
+        String[] searchQueryArray = searchQuery.split(" ");
+        String[] searchQueryArrayPrepared = new String[searchQueryArray.length];
+        List<Article> articleList = new LinkedList<>();
+
+        for (int i = 0; i < searchQueryArray.length; i++) {
+            searchQueryArray[i] = "%" + searchQueryArray[i] + "%";
+        }
+
+//        String query = "SELECT *, t FROM ( SELECT *, convert_from(decode(article_html, 'base64'), 'UTF-8') as t " +
+//                " FROM articles) foo " +
+//                " WHERE t LIKE ALL (array['%Наваль%', '%Владимир%']);";
+        String query = "SELECT *, t FROM ( SELECT *, convert_from(decode(article_html, 'base64'), 'UTF-8') as t " +
+                " FROM articles) foo " +
+                " WHERE t LIKE ALL (?)";
+
+        DatabaseConnectionService db = new DatabaseConnectionService();
+
+        PreparedStatement preparedStatement = db.getConnection().prepareStatement(query);
+
+        Array array = db.getConnection().createArrayOf("VARCHAR", searchQueryArray);
+
+        preparedStatement.setArray(1, array);
+
+        ResultSet rs = preparedStatement.executeQuery();
+
+        db.closeConnection();
+
+        while (rs.next()) {
+
+            Article currentArticle = new Article();
+            RawPhoto currentRawPhoto = new RawPhoto();
+
+            currentRawPhoto.setUrl(rs.getString("photo"));
+
+            currentArticle.setId(rs.getString("id"));
+            currentArticle.setDescription(rs.getString("description"));
+            currentArticle.setNewsKeywords(rs.getString("news_keywords"));
+            currentArticle.setImage(rs.getString("image"));
+            currentArticle.setArticleHtml(rs.getString("article_html"));
+            currentArticle.setFrontUrl(rs.getString("front_url"));
+            currentArticle.setTitle(rs.getString("title"));
+            currentArticle.setPhoto(currentRawPhoto);
+            currentArticle.setProject(rs.getString("project"));
+            currentArticle.setCategory(rs.getString("category"));
+            currentArticle.setOpinionAuthors(rs.getString("opinion_authors"));
+            currentArticle.setAnons(rs.getString("anons"));
+            currentArticle.setPublishDate(rs.getTimestamp("publish_date"));
+            currentArticle.setParsedDate(rs.getTimestamp("parsed_date"));
+
+            articleList.add(currentArticle);
+        }
+
+        return articleList;
     }
 }

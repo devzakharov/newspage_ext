@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
 
 public class ArticlesParseScheduler extends TimerTask {
 

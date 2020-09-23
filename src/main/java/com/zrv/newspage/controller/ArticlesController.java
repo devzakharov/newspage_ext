@@ -49,40 +49,23 @@ public class ArticlesController extends HttpServlet {
         PrintWriter output = resp.getWriter();
         ArticlesServiceImpl articlesService = new ArticlesServiceImpl();
 
-        // String jsonString = req.getReader().readLine();
         ObjectMapper mapper = new ObjectMapper();
-
-        HashMap<String, Integer> jsonMap = null;
 
         List<Article> requestedList = new LinkedList<>();
 
-//        if (jsonString != "{}") {
-//            try {
-//
-//                jsonMap = mapper.readValue(jsonString, HashMap.class);
-//
-//                System.out.println(jsonMap);
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        assert jsonMap != null;
-//
-//        // here is list of requested articles
-//       requestedList =  articlesService.getArticlesList(jsonMap.get("limit"), jsonMap.get("offset"));
+        System.out.println(req.getParameter("search"));
 
-//        } else {
-
-           requestedList = articlesService.getArticlesList(
-                   Integer.parseInt(req.getParameter("limit")),
-                   Integer.parseInt(req.getParameter("offset")),
-                   req.getParameter("tags"),
-                   req.getParameter("fromDate"),
-                   req.getParameter("toDate")
-           );
-//        }
-
-
+        if (req.getParameter("search") != null) {
+            requestedList = articlesService.getSearchResults(req.getParameter("search"));
+        } else {
+            requestedList = articlesService.getArticlesList(
+                    Integer.parseInt(req.getParameter("limit")),
+                    Integer.parseInt(req.getParameter("offset")),
+                    req.getParameter("tags"),
+                    req.getParameter("fromDate"),
+                    req.getParameter("toDate")
+            );
+        }
 
         output.write(mapper.writeValueAsString(requestedList));
     }

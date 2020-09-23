@@ -3,6 +3,7 @@ package com.zrv.newspage.dao;
 import com.zrv.newspage.domain.Tags;
 import com.zrv.newspage.service.DatabaseConnectionService;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -51,11 +52,33 @@ public class TagsDao implements Dao<Tags> {
                 "order by count(*) desc " +
                 "limit 40";
         ResultSet rs = db.getConnection().createStatement().executeQuery(query);
+        db.closeConnection();
+
         //TODO Вынести логику формирования мапы
         Map<String, Integer> tagMap = new LinkedHashMap<>();
+
         while (rs.next()) {
             tagMap.put(rs.getString("element"), rs.getInt("count"));
         }
         return tagMap;
+    }
+
+    public Set<String> getSuggestions(String string) throws SQLException {
+
+        Set<String> suggestions = new HashSet<>();
+
+        String query = "SELECT unnest FROM (SELECT unnest(news_keywords) FROM articles" +
+                " GROUP BY id) foo WHERE lower(unnest) LIKE lower(?) LIMIT 10";
+
+        PreparedStatement preparedStatement = db.getConnection().prepareStatement(query);
+        preparedStatement.setString(1, string + "%");
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while(resultSet.next()) {
+            suggestions.add(resultSet.getString(1));
+        }
+
+        db.closeConnection();
+        return suggestions;
     }
 }

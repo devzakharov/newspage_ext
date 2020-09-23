@@ -28,4 +28,9 @@ public class ArticlesServiceImpl implements ArticlesService {
 
         return articleDao.getAllFiltered(limit, offset, tagsArray, fromDate, toDate);
     }
+
+    public List<Article> getSearchResults(String searchQuery) throws SQLException {
+        ArticleDao articleDao = new ArticleDao();
+        return articleDao.getSearchResult(searchQuery);
+    }
 }

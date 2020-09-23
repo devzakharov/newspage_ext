@@ -25,11 +25,13 @@ public class ArticlesHtmlDataParser {
         this.previewArticleMap = previewArticleMap;
     }
 
+
+    // TODO add concurrency multithreading
     public void fillDataObject() {
 
         previewArticleMap.forEach((previewArticleId, previewArticle) -> {
             try {
-                linksHandler(previewArticle);
+                handleLink(previewArticle);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -37,7 +39,8 @@ public class ArticlesHtmlDataParser {
     }
 
     // TODO: Разнести ответственность по методам
-    private void linksHandler(PreviewArticle previewArticle) throws IOException {
+    private void handleLink(PreviewArticle previewArticle) throws IOException {
+
 
         Article article = new Article();
         Document doc = Jsoup.connect(previewArticle.getFrontUrl()).get();
@@ -61,6 +64,8 @@ public class ArticlesHtmlDataParser {
         // logger.debug("Created article: " + article.toString());
 
         this.articleSet.add(article);
+        System.out.println(this.articleSet.size());
+
     }
 
     public Set<Article> getArticleSet() {
