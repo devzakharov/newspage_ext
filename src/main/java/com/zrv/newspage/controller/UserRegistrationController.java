@@ -5,6 +5,7 @@ import com.zrv.newspage.domain.User;
 import com.zrv.newspage.exception.DuplicateUserException;
 import com.zrv.newspage.exception.WrongUserDataException;
 import com.zrv.newspage.service.UserServiceImpl;
+import com.zrv.newspage.util.ServletUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -44,7 +45,7 @@ public class UserRegistrationController extends HttpServlet {
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        setAccessControlHeaders(resp);
+        ServletUtils.setAccessControlHeaders(resp);
         PrintWriter output = resp.getWriter();
 
         StringBuilder stringBuffer = new StringBuilder();
@@ -101,18 +102,11 @@ public class UserRegistrationController extends HttpServlet {
         output.write(json);
     }
 
-    //for Preflight
+
     @Override
-    protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        setAccessControlHeaders(resp);
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) {
+        ServletUtils.setAccessControlHeaders(resp);
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 
-    private void setAccessControlHeaders(HttpServletResponse resp) {
-        resp.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-        resp.setHeader("Access-Control-Max-Age", "1000");
-        resp.setHeader("Access-Control-Allow-Headers", "x-requested-with, Content-Type, origin, authorization, accept, x-access-token");
-    }
 }

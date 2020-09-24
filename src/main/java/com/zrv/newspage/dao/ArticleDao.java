@@ -3,6 +3,7 @@ import com.zrv.newspage.domain.Article;
 import com.zrv.newspage.domain.RawPhoto;
 import com.zrv.newspage.service.DatabaseConnectionService;
 import org.apache.log4j.Logger;
+import org.postgresql.util.PSQLException;
 
 import java.sql.*;
 import java.util.*;
@@ -221,8 +222,9 @@ public class ArticleDao implements Dao<Article> {
         String[] searchQueryArrayPrepared = new String[searchQueryArray.length];
         List<Article> articleList = new LinkedList<>();
 
+        System.out.println(searchQueryArray.length);
         for (int i = 0; i < searchQueryArray.length; i++) {
-            searchQueryArray[i] = "%" + searchQueryArray[i] + "%";
+            searchQueryArray[i] = "%" + searchQueryArray[i].toLowerCase().substring(1) + "%";
         }
 
 //        String query = "SELECT *, t FROM ( SELECT *, convert_from(decode(article_html, 'base64'), 'UTF-8') as t " +
@@ -238,11 +240,11 @@ public class ArticleDao implements Dao<Article> {
 
         Array array = db.getConnection().createArrayOf("VARCHAR", searchQueryArray);
 
+        System.out.println(array.toString());
+
         preparedStatement.setArray(1, array);
 
         ResultSet rs = preparedStatement.executeQuery();
-
-        db.closeConnection();
 
         while (rs.next()) {
 
@@ -269,6 +271,7 @@ public class ArticleDao implements Dao<Article> {
             articleList.add(currentArticle);
         }
 
+        db.closeConnection();
         return articleList;
     }
 }
