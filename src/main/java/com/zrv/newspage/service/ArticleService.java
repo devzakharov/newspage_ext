@@ -10,6 +10,7 @@ public class ArticleService {
     ArticleDao articleDao = new ArticleDao();
 
     public Article getArticle(String id) throws SQLException {
+
         if(articleDao.get(id).isPresent()) {
             return articleDao.get(id).get();
         } else {

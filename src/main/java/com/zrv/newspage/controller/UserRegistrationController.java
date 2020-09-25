@@ -7,7 +7,6 @@ import com.zrv.newspage.exception.WrongUserDataException;
 import com.zrv.newspage.service.UserServiceImpl;
 import com.zrv.newspage.util.ServletUtils;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,87 +25,74 @@ public class UserRegistrationController extends HttpServlet {
     // TODO настроить адекватные события для логера
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         handleRequest(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         handleRequest(req, resp);
     }
 
-    // TODO разнести логику по методам
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         ServletUtils.setAccessControlHeaders(resp);
         PrintWriter output = resp.getWriter();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
 
         StringBuilder stringBuffer = new StringBuilder();
-        String line = "";
+        String line;
 
         try {
             BufferedReader reader = req.getReader();
-            while ((line = reader.readLine()) != null)
+            while ((line = reader.readLine()) != null) {
                 stringBuffer.append(line);
-        } catch (Exception e) { /*report an error*/ }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> map = objectMapper.readValue(stringBuffer.toString(), Map.class);
 
-        String login = map.get("login");
-        String password = map.get("password");
-        String email = map.get("email");
-
-        User user = new User(login, email, password);
+        User user = new User(map.get("login"), map.get("email"), map.get("password"));
 
         String json;
 
-        Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
+        Set<ConstraintViolation<User>> constraintViolations = validator.validate(user);
 
         try {
-
             UserServiceImpl userService = new UserServiceImpl(user);
-
-            if (constraintViolations.size() > 0) throw new WrongUserDataException(constraintViolations.stream().map(item -> item.getMessage()).collect(Collectors.toList()));
-
-            if (userService.checkUserExist()) throw new DuplicateUserException("Такой пользователь уже существует!");
-
+            if (constraintViolations.size() > 0) {
+                throw new WrongUserDataException(
+                        constraintViolations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList())
+                );
+            }
+            if (userService.checkUserExist()) {
+                throw new DuplicateUserException("Такой пользователь уже существует!");
+            }
             userService.addUser();
-
             resp.setStatus(HttpServletResponse.SC_OK);
-
             json = "{\"status\":\"Успех!\"}";
-
         } catch (WrongUserDataException e) {
-
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             json = objectMapper.writeValueAsString(e.getErrorsList());
-        } catch (DuplicateUserException e) {
-
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            json = objectMapper.writeValueAsString(e.getMessage());
-        } catch (SQLException e) {
-
-            e.printStackTrace();
+        } catch (DuplicateUserException | SQLException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             json = objectMapper.writeValueAsString(e.getMessage());
         }
-
         output.write(json);
     }
-
 
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp) {
         ServletUtils.setAccessControlHeaders(resp);
         resp.setStatus(HttpServletResponse.SC_OK);
     }
-
 }

@@ -25,7 +25,6 @@ public class ArticlesHtmlDataParser {
         this.previewArticleMap = previewArticleMap;
     }
 
-
     // TODO add concurrency multithreading
     public void fillDataObject() {
 
@@ -76,7 +75,6 @@ public class ArticlesHtmlDataParser {
     public void writeArticlesToDb () throws SQLException {
 
         ArticleDao articleDao = new ArticleDao();
-        //Set<Article> temp = new HashSet<>();
         articleDao.save(this.articleSet);
     }
 }

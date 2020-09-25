@@ -1,7 +1,6 @@
 package com.zrv.newspage;
 
 import com.zrv.newspage.controller.*;
-import com.zrv.newspage.dao.ArticleDao;
 import com.zrv.newspage.service.ArticlesParseScheduler;
 import org.apache.log4j.BasicConfigurator;
 import org.eclipse.jetty.server.Connector;
@@ -18,26 +17,9 @@ public class ArticlesPageApplication {
 
         BasicConfigurator.configure();
 
-//        ArticlesJsonDataParser.getInstance().fillDataObject();
-//
-//        ArticlesHtmlDataParser htmlDataParser = new ArticlesHtmlDataParser(
-//                ArticlesJsonDataParser.getInstance().getDataObject()
-//        );
-//
-//        htmlDataParser.fillDataObject();
-//        htmlDataParser.writeArticlesToDb();
-
-//        ArticleDao ad = new ArticleDao();
-//        System.out.println(ad.getTagMap().toString());
-
-//        String[] tagArray = ad.getTagList().split(", ");
-//        for (int i = 0; i <= tagArray.length; i++) {
-//
-//        }
-
         Timer time = new Timer();
-        ArticlesParseScheduler s = new ArticlesParseScheduler();
-        time.schedule(s, 0, 3600000);
+        ArticlesParseScheduler scheduler = new ArticlesParseScheduler();
+        time.schedule(scheduler, 0, 3600000);
 
         Server server = new Server();
         ServerConnector connector = new ServerConnector(server);

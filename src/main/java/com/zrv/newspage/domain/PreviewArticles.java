@@ -9,7 +9,7 @@ public class PreviewArticles {
     @JsonProperty("items")
     private HashSet<PreviewArticle> previewArticles;
 
-    public HashSet<PreviewArticle> getRawArticleSet() {
+    public HashSet<PreviewArticle> getPreviewArticleSet() {
         return previewArticles;
     }
 

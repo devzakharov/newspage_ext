@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
         userDao = new UserDao();
 
-        if (userDao.getUserByLogin(user) > 0) {
+        if (userDao.getUsersCount(user) > 0) {
             return true;
         }
 

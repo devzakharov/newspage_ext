@@ -51,16 +51,16 @@ public class TagsDao implements Dao<Tags> {
                 "group by element " +
                 "order by count(*) desc " +
                 "limit 40";
-        ResultSet rs = db.getConnection().createStatement().executeQuery(query);
-        db.closeConnection();
+        ResultSet rs = db.getConnection().prepareStatement(query).executeQuery();
 
-        //TODO Вынести логику формирования мапы
-        Map<String, Integer> tagMap = new LinkedHashMap<>();
+        Map<String, Integer> tagsMap = new LinkedHashMap<>();
 
         while (rs.next()) {
-            tagMap.put(rs.getString("element"), rs.getInt("count"));
+            tagsMap.put(rs.getString("element"), rs.getInt("count"));
         }
-        return tagMap;
+
+        db.closeConnection();
+        return tagsMap;
     }
 
     public Set<String> getSuggestions(String string) throws SQLException {

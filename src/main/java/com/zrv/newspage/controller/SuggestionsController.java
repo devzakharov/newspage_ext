@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zrv.newspage.dao.TagsDao;
 import com.zrv.newspage.util.ServletUtils;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,26 +15,18 @@ import java.sql.SQLException;
 public class SuggestionsController extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        try {
             handleRequest(req, resp);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
 
-        try {
             handleRequest(req, resp);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
-    public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
+    public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
@@ -47,14 +38,20 @@ public class SuggestionsController extends HttpServlet {
         TagsDao dao = new TagsDao();
         ObjectMapper mapper = new ObjectMapper();
 
-        String json = mapper.writeValueAsString(dao.getSuggestions(req.getParameter("inputvalue")));
+        String json = "";
+
+        try {
+            json = mapper.writeValueAsString(dao.getSuggestions(req.getParameter("inputvalue")));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         output.write(json);
-
     }
 
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp) {
+
         ServletUtils.setAccessControlHeaders(resp);
         resp.setStatus(HttpServletResponse.SC_OK);
     }

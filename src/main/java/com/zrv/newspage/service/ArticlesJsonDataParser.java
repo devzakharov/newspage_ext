@@ -43,7 +43,7 @@ public class ArticlesJsonDataParser {
 
         while (previewArticleSet.size() < articlesCountLimit) {
             PreviewArticles addedPreviewArticles = mapper.readValue(getRequestUrl(), PreviewArticles.class);
-            previewArticleSet.addAll(addedPreviewArticles.getRawArticleSet());
+            previewArticleSet.addAll(addedPreviewArticles.getPreviewArticleSet());
             offset += limitPerRequest;
         }
 
