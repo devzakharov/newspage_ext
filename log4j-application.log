@@ -908,3 +908,9 @@
 2020-09-28 15:40:18 INFO  ArticlesParseScheduler:31 - Scheduled task is finished
 2020-09-28 16:35:06 INFO  ArticlesParseScheduler:20 - Scheduled task is started
 2020-09-28 16:40:26 INFO  ArticlesParseScheduler:31 - Scheduled task is finished
+2020-09-28 17:35:46 INFO  ArticlesParseScheduler:18 - Scheduled task is started
+2020-09-28 17:35:46 INFO  ArticlesJsonDataParser:61 - Created new link: https://www.rbc.ru/v10/search/ajax/?offset=0&limit=100
+2020-09-28 17:35:49 INFO  ArticlesJsonDataParser:61 - Created new link: https://www.rbc.ru/v10/search/ajax/?offset=100&limit=100
+2020-09-28 17:35:50 INFO  ArticlesJsonDataParser:61 - Created new link: https://www.rbc.ru/v10/search/ajax/?offset=200&limit=100
+2020-09-28 17:35:51 INFO  ArticlesJsonDataParser:61 - Created new link: https://www.rbc.ru/v10/search/ajax/?offset=300&limit=100
+2020-09-28 17:41:19 INFO  ArticlesParseScheduler:29 - Scheduled task is finished
