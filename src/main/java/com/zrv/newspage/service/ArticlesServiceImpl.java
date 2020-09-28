@@ -30,6 +30,7 @@ public class ArticlesServiceImpl implements ArticlesService {
     }
 
     public List<Article> getSearchResults(String searchQuery) throws SQLException {
+
         ArticleDao articleDao = new ArticleDao();
         return articleDao.getSearchResult(searchQuery);
     }

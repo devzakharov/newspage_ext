@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ServletUtils {
 
     public static void setAccessControlHeaders(HttpServletResponse resp) {
+
         resp.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
         resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         resp.setHeader("Access-Control-Max-Age", "1000");

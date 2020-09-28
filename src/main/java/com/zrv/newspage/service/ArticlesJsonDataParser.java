@@ -24,11 +24,11 @@ public class ArticlesJsonDataParser {
     int articlesCountLimit = 400;
     Set<PreviewArticle> previewArticleSet = new HashSet<>();
 
-    private ArticlesJsonDataParser() throws IOException {
+    private ArticlesJsonDataParser() {
 
     }
 
-    public static ArticlesJsonDataParser getInstance() throws IOException {
+    public static ArticlesJsonDataParser getInstance() {
 
         if (instance == null) {
             instance = new ArticlesJsonDataParser();
@@ -42,7 +42,7 @@ public class ArticlesJsonDataParser {
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
         while (previewArticleSet.size() < articlesCountLimit) {
-            PreviewArticles addedPreviewArticles = mapper.readValue(getRequestUrl(), PreviewArticles.class);
+            PreviewArticles addedPreviewArticles = mapper.readValue(getRequestLink(), PreviewArticles.class);
             previewArticleSet.addAll(addedPreviewArticles.getPreviewArticleSet());
             offset += limitPerRequest;
         }
@@ -50,11 +50,11 @@ public class ArticlesJsonDataParser {
     }
 
     public Map<String, PreviewArticle> getDataObject() {
-        Map<String, PreviewArticle> map = previewArticleSet.stream().collect(Collectors.toMap(PreviewArticle::getId, e -> e));
-        return map;
+
+        return previewArticleSet.stream().collect(Collectors.toMap(PreviewArticle::getId, e -> e));
     }
 
-    private URL getRequestUrl() throws MalformedURLException {
+    private URL getRequestLink() throws MalformedURLException {
 
         // https://www.rbc.ru/v10/search/ajax/?offset=100&limit=100&dateFrom=06.09.2020&dateTo=07.09.2020 парсинг по дате - апи дает рендж сутки
         URL link = new URL(String.format("https://www.rbc.ru/v10/search/ajax/?offset=%d&limit=%d", offset, limitPerRequest));

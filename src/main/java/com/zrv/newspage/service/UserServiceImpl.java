@@ -5,19 +5,19 @@ import com.zrv.newspage.domain.User;
 import java.sql.SQLException;
 
 public class UserServiceImpl implements UserService {
-    private User user;
-    UserDao userDao;
+
+    private final User user;
+    private UserDao userDao = new UserDao();
 
     @Override
     public void addUser() {
-        //System.out.println(this.user.toString());
 
         userDao = new UserDao();
 
         try {
             userDao.save(user);
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -34,16 +34,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean checkUserExist() throws SQLException {
 
-        userDao = new UserDao();
-
-        if (userDao.getUsersCount(user) > 0) {
-            return true;
-        }
-
-        return false;
+        return userDao.getUsersCount(user) > 0;
     }
 
     public UserServiceImpl(User user) {
+
         this.user = user;
     }
 }

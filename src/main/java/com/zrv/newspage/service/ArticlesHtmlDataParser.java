@@ -20,7 +20,7 @@ public class ArticlesHtmlDataParser {
     Map<String, PreviewArticle> previewArticleMap;
     Set<Article> articleSet = new HashSet<>();
 
-    public ArticlesHtmlDataParser(Map<String, PreviewArticle> previewArticleMap) throws IOException {
+    public ArticlesHtmlDataParser(Map<String, PreviewArticle> previewArticleMap) {
 
         this.previewArticleMap = previewArticleMap;
     }
@@ -30,20 +30,17 @@ public class ArticlesHtmlDataParser {
 
         previewArticleMap.forEach((previewArticleId, previewArticle) -> {
             try {
-                handleLink(previewArticle);
+                parseLink(previewArticle);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    // TODO: Разнести ответственность по методам
-    private void handleLink(PreviewArticle previewArticle) throws IOException {
-
+    private void parseLink(PreviewArticle previewArticle) throws IOException {
 
         Article article = new Article();
         Document doc = Jsoup.connect(previewArticle.getFrontUrl()).get();
-        // System.out.println("Data id: " + doc.select(".js-rbcslider-slide").attr("data-id"));
 
         article.setId(doc.select(".js-rbcslider-slide").attr("data-id"));
         article.setDescription(doc.select("div.js-rbcslider > div > meta").attr("content"));
@@ -60,11 +57,7 @@ public class ArticlesHtmlDataParser {
         article.setAnons(previewArticle.getAnons());
         article.setPublishDate(previewArticle.getPublishDate());
 
-        // logger.debug("Created article: " + article.toString());
-
         this.articleSet.add(article);
-        System.out.println(this.articleSet.size());
-
     }
 
     public Set<Article> getArticleSet() {

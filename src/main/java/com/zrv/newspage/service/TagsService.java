@@ -17,7 +17,9 @@ public class TagsService {
     TagsDao tagsDao = new TagsDao();
 
     public Map<String, Integer> getTagsMap() {
+
         Map<String, Integer> tagsMap = new LinkedHashMap<>();
+
         try {
             tagsMap = tagsDao.getTagsMap();
         } catch (SQLException e) {
@@ -34,28 +36,11 @@ public class TagsService {
 
     public Map<String, Integer> getFilteredTagsMap() {
 
-        Map<String, Integer> tagsMap = getTagsMap();
-//        Map<String, Integer> filteredTagsMap = new LinkedHashMap<>();
-//
-//        int maxTagValue = getMaxTagValue(tagsMap);
-//
-//        tagsMap.forEach((k,v) -> {
-//            if (v == maxTagValue) {
-//                filteredTagsMap.put(k + v, 5);
-//            } else if (v > maxTagValue / 2) {
-//                filteredTagsMap.put(k + v, 4);
-//            } else if (v == maxTagValue / 2) {
-//                filteredTagsMap.put(k + v, 3);
-//            } else if (v < maxTagValue / 2) {
-//                filteredTagsMap.put(k + v, 3);
-//            }
-//        });
-
-
-        return tagsMap;
+        return getTagsMap();
     }
 
     public <K, V extends Comparable<V>> V getMaxTagValue(Map<K, V> map) {
+
         Optional<Map.Entry<K, V>> maxEntry = map.entrySet()
                 .stream()
                 .max(Map.Entry.comparingByValue());

@@ -25,7 +25,7 @@ public class DatabaseConnectionService {
     }
 
     public void closeConnection () throws SQLException {
-        getConnection().close();
-    }
 
+        connection.close();
+    }
 }
