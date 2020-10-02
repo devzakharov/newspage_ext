@@ -7,7 +7,20 @@ import java.sql.SQLException;
 
 public class ArticleService {
 
-    ArticleDao articleDao = new ArticleDao();
+    private static ArticleService instance;
+    private final ArticleDao articleDao = ArticleDao.getInstance();
+
+    private ArticleService() {
+
+    }
+
+    public static ArticleService getInstance() {
+
+        if (instance == null) {
+            instance = new ArticleService();
+        }
+        return instance;
+    }
 
     public Article getArticle(String id) throws SQLException {
 

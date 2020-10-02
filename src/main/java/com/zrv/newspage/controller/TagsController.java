@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 
 public class TagsController extends HttpServlet {
 
+    private static final TagsService tagsService = TagsService.getInstance();
     // TODO настроить адекватные события для логера
 
     @Override
@@ -27,11 +28,9 @@ public class TagsController extends HttpServlet {
 
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
+        ServletUtils.setUsualHeaders(resp);
         ServletUtils.setAccessControlHeaders(resp);
         PrintWriter output = resp.getWriter();
-        TagsService tagsService = new TagsService();
         String json;
 
         if (req.getParameter("getalltags").equals("1")) {

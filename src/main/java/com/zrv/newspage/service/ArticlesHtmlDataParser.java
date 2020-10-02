@@ -15,18 +15,28 @@ import java.util.Set;
 
 public class ArticlesHtmlDataParser {
 
+    private static ArticlesHtmlDataParser instance;
+
+    private static final ArticleDao articleDao = ArticleDao.getInstance();
     private static final Logger logger = Logger.getLogger(ArticlesHtmlDataParser.class);
 
-    Map<String, PreviewArticle> previewArticleMap;
-    Set<Article> articleSet = new HashSet<>();
+    // private final Map<String, PreviewArticle> previewArticleMap;
+    private final Set<Article> articleSet = new HashSet<>();
 
-    public ArticlesHtmlDataParser(Map<String, PreviewArticle> previewArticleMap) {
+    private ArticlesHtmlDataParser() {
 
-        this.previewArticleMap = previewArticleMap;
+    }
+
+    public static ArticlesHtmlDataParser getInstance() {
+
+        if (instance == null) {
+            instance = new ArticlesHtmlDataParser();
+        }
+        return instance;
     }
 
     // TODO add concurrency multithreading
-    public void fillDataObject() {
+    public void fillDataObject(Map<String, PreviewArticle> previewArticleMap) {
 
         previewArticleMap.forEach((previewArticleId, previewArticle) -> {
             try {
@@ -67,7 +77,6 @@ public class ArticlesHtmlDataParser {
 
     public void writeArticlesToDb () throws SQLException {
 
-        ArticleDao articleDao = new ArticleDao();
         articleDao.save(this.articleSet);
     }
 }

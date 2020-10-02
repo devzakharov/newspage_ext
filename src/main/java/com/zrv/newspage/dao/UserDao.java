@@ -4,7 +4,6 @@ import com.zrv.newspage.domain.User;
 import com.zrv.newspage.service.CryptoService;
 import com.zrv.newspage.service.DatabaseConnectionService;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +12,24 @@ import java.util.Optional;
 
 public class UserDao implements Dao<User> {
 
+    private static final DatabaseConnectionService dbcs = DatabaseConnectionService.getInstance();
+    private static final CryptoService cryptoService = CryptoService.getInstance();
+    private static UserDao instance;
     // TODO настроить адекватные события для логера
 
     List<User> users = new ArrayList<>();
+
+    private UserDao() {
+
+    }
+
+    public static UserDao getInstance() {
+
+        if (instance == null) {
+            instance = new UserDao();
+        }
+        return instance;
+    }
 
     @Override
     public Optional<User> get(String id) {
@@ -26,9 +40,8 @@ public class UserDao implements Dao<User> {
     @Override
     public List<User> getAll() throws SQLException {
 
-        DatabaseConnectionService db = new DatabaseConnectionService();
-        ResultSet rs = db.getConnection().prepareStatement("SELECT * FROM users").getResultSet();
-        db.closeConnection();
+        ResultSet rs = dbcs.getConnection().prepareStatement("SELECT * FROM users").getResultSet();
+        dbcs.closeConnection();
 
         return getUsersList(rs);
     }
@@ -36,19 +49,18 @@ public class UserDao implements Dao<User> {
     public Integer getUsersCount(User user) throws SQLException {
 
         int count = 0;
-        DatabaseConnectionService db = new DatabaseConnectionService();
 
         String query = "SELECT count(*) FROM users WHERE login = ? OR email = ?";
-        PreparedStatement preparedStatement = db.getConnection().prepareStatement(query);
+        PreparedStatement preparedStatement = dbcs.getConnection().prepareStatement(query);
         preparedStatement.setString(1, user.getLogin());
         preparedStatement.setString(2, user.getPassword());
 
         try {
-            ResultSet rs = db.getConnection().prepareStatement(query).executeQuery();
+            ResultSet rs = dbcs.getConnection().prepareStatement(query).executeQuery();
             if (rs != null && rs.next()) {
                 count = rs.getInt(1);
             }
-            db.closeConnection();
+            dbcs.closeConnection();
             return count;
         } catch (SQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
@@ -61,19 +73,14 @@ public class UserDao implements Dao<User> {
     public void save(User user) throws SQLException {
 
         String query = "INSERT INTO users (login, email, password) VALUES (?, ?, ?)";
-        DatabaseConnectionService db = new DatabaseConnectionService();
-        PreparedStatement preparedStatement = db.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+        PreparedStatement preparedStatement = dbcs.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, user.getLogin());
         preparedStatement.setString(2, user.getEmail());
+        preparedStatement.setString(3, cryptoService.getHashString(user.getPassword()));
 
-        try {
-            preparedStatement.setString(3, CryptoService.getInstance().getHashString(user.getPassword()));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        ResultSet rs = db.getConnection().createStatement().getGeneratedKeys();
-        db.closeConnection();
+        ResultSet rs = dbcs.getConnection().createStatement().getGeneratedKeys();
+        dbcs.closeConnection();
 
         int id = -1;
 

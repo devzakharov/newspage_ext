@@ -111,17 +111,10 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>7.0.0</version>
                 <configuration>
-                    <url>jdbc:postgresql://localhost:5432/postgres?useUnicode=true&amp;serverTimezone=UTC</url>
+                    <url>jdbc:postgresql://localhost:5432/test2?useUnicode=true&amp;serverTimezone=UTC</url>
                     <user>postgres</user>
                     <password>root</password>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.h2database</groupId>
-                        <artifactId>h2</artifactId>
-                        <version>1.4.197</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

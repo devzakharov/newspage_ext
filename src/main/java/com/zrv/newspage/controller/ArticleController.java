@@ -14,6 +14,7 @@ import java.sql.SQLException;
 
 public class ArticleController extends HttpServlet {
 
+    private final ArticleService articleService = ArticleService.getInstance();
     // TODO настроить адекватные события для логера
 
     @Override
@@ -30,12 +31,10 @@ public class ArticleController extends HttpServlet {
 
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        ArticleService articleService = new ArticleService();
         PrintWriter output = resp.getWriter();
         ObjectMapper mapper = new ObjectMapper();
 
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
+        ServletUtils.setUsualHeaders(resp);
         ServletUtils.setAccessControlHeaders(resp);
 
         try {

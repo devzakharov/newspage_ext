@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 
 public class UserRegistrationController extends HttpServlet {
 
+    private static final UserServiceImpl userService = UserServiceImpl.getInstance();
+
     // TODO настроить адекватные события для логера
 
     @Override
@@ -38,8 +40,7 @@ public class UserRegistrationController extends HttpServlet {
 
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
+        ServletUtils.setUsualHeaders(resp);
         ServletUtils.setAccessControlHeaders(resp);
         PrintWriter output = resp.getWriter();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -62,13 +63,13 @@ public class UserRegistrationController extends HttpServlet {
         Map<String, String> map = objectMapper.readValue(stringBuffer.toString(), Map.class);
 
         User user = new User(map.get("login"), map.get("email"), map.get("password"));
+        userService.setUser(user);
 
         String json;
 
         Set<ConstraintViolation<User>> constraintViolations = validator.validate(user);
 
         try {
-            UserServiceImpl userService = new UserServiceImpl(user);
             if (constraintViolations.size() > 0) {
                 throw new WrongUserDataException(
                         constraintViolations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList())

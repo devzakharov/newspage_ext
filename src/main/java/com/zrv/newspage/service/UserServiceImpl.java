@@ -6,13 +6,24 @@ import java.sql.SQLException;
 
 public class UserServiceImpl implements UserService {
 
-    private final User user;
-    private UserDao userDao = new UserDao();
+    private static UserServiceImpl instance;
+    private User user;
+    private final UserDao userDao = UserDao.getInstance();
+
+    private UserServiceImpl( ) {
+
+    }
+
+    public static UserServiceImpl getInstance() {
+
+        if (instance == null) {
+            instance = new UserServiceImpl();
+        }
+        return instance;
+    }
 
     @Override
     public void addUser() {
-
-        userDao = new UserDao();
 
         try {
             userDao.save(user);
@@ -37,8 +48,7 @@ public class UserServiceImpl implements UserService {
         return userDao.getUsersCount(user) > 0;
     }
 
-    public UserServiceImpl(User user) {
-
+    public void setUser(User user) {
         this.user = user;
     }
 }

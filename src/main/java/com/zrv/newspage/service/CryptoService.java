@@ -4,15 +4,25 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+
 public class CryptoService {
 
     private static CryptoService instance;
-    MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+    MessageDigest messageDigest;
 
-    private CryptoService() throws NoSuchAlgorithmException {
+    {
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static CryptoService getInstance() throws NoSuchAlgorithmException {
+    private CryptoService() {
+    }
+
+    public static CryptoService getInstance() {
+
         if (instance == null) {
             instance = new CryptoService();
         }

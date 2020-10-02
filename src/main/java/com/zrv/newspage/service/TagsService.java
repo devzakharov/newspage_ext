@@ -14,7 +14,20 @@ import static java.util.stream.Collectors.toMap;
 
 public class TagsService {
 
-    TagsDao tagsDao = new TagsDao();
+    private static final TagsDao tagsDao = TagsDao.getInstance();
+    private static TagsService instance;
+
+    private TagsService() {
+
+    }
+
+    public static TagsService getInstance() {
+
+        if (instance == null) {
+            instance = new TagsService();
+        }
+        return instance;
+    }
 
     public Map<String, Integer> getTagsMap() {
 

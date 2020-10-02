@@ -11,4 +11,10 @@ public class ServletUtils {
         resp.setHeader("Access-Control-Max-Age", "1000");
         resp.setHeader("Access-Control-Allow-Headers", "x-requested-with, Content-Type, origin, authorization, accept, x-access-token");
     }
+
+    public static void setUsualHeaders(HttpServletResponse resp) {
+
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+    }
 }

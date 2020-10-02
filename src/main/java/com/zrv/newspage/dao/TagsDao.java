@@ -10,9 +10,21 @@ import java.util.*;
 
 public class TagsDao implements Dao<Tags> {
 
+    private static final DatabaseConnectionService dbcs = DatabaseConnectionService.getInstance();
+    private static TagsDao instance;
     // TODO настроить адекватные события для логера
 
-    DatabaseConnectionService db = new DatabaseConnectionService();
+    private TagsDao() {
+
+    }
+
+    public static TagsDao getInstance() {
+
+        if (instance == null) {
+            instance = new TagsDao();
+        }
+        return instance;
+    }
 
     @Override
     public Optional<Tags> get(String id) {
@@ -51,7 +63,7 @@ public class TagsDao implements Dao<Tags> {
                 "group by element " +
                 "order by count(*) desc " +
                 "limit 40";
-        ResultSet rs = db.getConnection().prepareStatement(query).executeQuery();
+        ResultSet rs = dbcs.getConnection().prepareStatement(query).executeQuery();
 
         Map<String, Integer> tagsMap = new LinkedHashMap<>();
 
@@ -59,7 +71,6 @@ public class TagsDao implements Dao<Tags> {
             tagsMap.put(rs.getString("element"), rs.getInt("count"));
         }
 
-        db.closeConnection();
         return tagsMap;
     }
 
@@ -70,7 +81,7 @@ public class TagsDao implements Dao<Tags> {
         String query = "SELECT unnest FROM (SELECT unnest(news_keywords) FROM articles" +
                 " GROUP BY id) foo WHERE lower(unnest) LIKE lower(?) LIMIT 10";
 
-        PreparedStatement preparedStatement = db.getConnection().prepareStatement(query);
+        PreparedStatement preparedStatement = dbcs.getConnection().prepareStatement(query);
         preparedStatement.setString(1, string + "%");
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -78,7 +89,6 @@ public class TagsDao implements Dao<Tags> {
             suggestions.add(resultSet.getString(1));
         }
 
-        db.closeConnection();
         return suggestions;
     }
 }

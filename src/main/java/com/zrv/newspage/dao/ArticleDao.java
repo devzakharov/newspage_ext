@@ -11,23 +11,35 @@ import java.util.*;
 
 public class ArticleDao implements Dao<Article> {
 
+    private static final DatabaseConnectionService dbcs = DatabaseConnectionService.getInstance();
+
     // TODO настроить адекватные события для логера
     final static Logger logger = Logger.getLogger(ArticleDao.class);
+    private static ArticleDao instance;
+
+    private void articleDao() {
+
+    }
+
+    public static ArticleDao getInstance() {
+
+        if (instance == null) {
+            instance = new ArticleDao();
+        }
+        return instance;
+    }
 
     @Override
     public Optional<Article> get(String id) throws SQLException {
 
-        DatabaseConnectionService db = new DatabaseConnectionService();
         String query = "SELECT * FROM articles WHERE id LIKE ? LIMIT 1";
-        PreparedStatement preparedStatement = db.getConnection().prepareStatement(query);
+        PreparedStatement preparedStatement = dbcs.getConnection().prepareStatement(query);
         preparedStatement.setString(1, id);
         ResultSet rs = preparedStatement.executeQuery();
 
         if (!rs.next()) {
-            db.closeConnection();
             return Optional.empty();
         } else {
-            db.closeConnection();
             return Optional.of(createArticle(rs));
         }
     }
@@ -65,10 +77,7 @@ public class ArticleDao implements Dao<Article> {
 
         System.out.println(query);
 
-        DatabaseConnectionService db = new DatabaseConnectionService();
-
-        ResultSet rs = db.getConnection().createStatement().executeQuery(query.toString());
-        db.closeConnection();
+        ResultSet rs = dbcs.getConnection().createStatement().executeQuery(query.toString());
 
         while (rs.next()) {
             filteredArticleList.add(createArticle(rs));
@@ -145,18 +154,20 @@ public class ArticleDao implements Dao<Article> {
             }
 
         }
-        DatabaseConnectionService db = new DatabaseConnectionService();
 
         queryList.forEach(queryListItem -> {
             try {
-                db.getConnection().prepareStatement(queryListItem).executeUpdate();
-            } catch (SQLException e) {
+                if (dbcs.getConnection() == null) {
+                    System.out.println("NULL!");
+                }
+                    dbcs.getConnection().prepareStatement(queryListItem).executeUpdate();
+            } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
+                System.out.println("npe");
                 logger.warn("Проблема с: " + queryListItem);
                 logger.warn(e.getMessage());
             }
         });
-        db.closeConnection();
     }
 
     @Override
@@ -177,9 +188,8 @@ public class ArticleDao implements Dao<Article> {
                 " FROM articles) foo " +
                 " WHERE t LIKE ALL (?)";
 
-        DatabaseConnectionService db = new DatabaseConnectionService();
-        PreparedStatement preparedStatement = db.getConnection().prepareStatement(query);
-        Array array = db.getConnection().createArrayOf("VARCHAR", convertSearchQueryStringToArray(searchQuery));
+        PreparedStatement preparedStatement = dbcs.getConnection().prepareStatement(query);
+        Array array = dbcs.getConnection().createArrayOf("VARCHAR", convertSearchQueryStringToArray(searchQuery));
         preparedStatement.setArray(1, array);
         ResultSet rs = preparedStatement.executeQuery();
 
@@ -187,7 +197,6 @@ public class ArticleDao implements Dao<Article> {
             articleList.add(createArticle(rs));
         }
 
-        db.closeConnection();
         return articleList;
     }
 

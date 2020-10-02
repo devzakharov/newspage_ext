@@ -15,6 +15,8 @@ import java.util.List;
 
 public class ArticlesController extends HttpServlet {
 
+    private final ArticlesServiceImpl articlesService = ArticlesServiceImpl.getInstance();
+
     // TODO настроить адекватные события для логера
 
     @Override
@@ -32,11 +34,9 @@ public class ArticlesController extends HttpServlet {
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
-        ArticlesServiceImpl articlesService = new ArticlesServiceImpl();
         PrintWriter output = resp.getWriter();
 
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
+        ServletUtils.setUsualHeaders(resp);
         ServletUtils.setAccessControlHeaders(resp);
 
         try {

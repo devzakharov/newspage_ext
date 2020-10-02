@@ -14,6 +14,8 @@ import java.sql.SQLException;
 
 public class SuggestionsController extends HttpServlet {
 
+    private final TagsDao tagsDao = TagsDao.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
@@ -28,22 +30,19 @@ public class SuggestionsController extends HttpServlet {
 
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
+        ServletUtils.setUsualHeaders(resp);
         ServletUtils.setAccessControlHeaders(resp);
         PrintWriter output = resp.getWriter();
+        String inputValue = req.getParameter("inputvalue");
+        String json;
 
-        System.out.println(req.getParameter("inputvalue"));
-
-        TagsDao dao = new TagsDao();
         ObjectMapper mapper = new ObjectMapper();
 
-        String json = "";
-
         try {
-            json = mapper.writeValueAsString(dao.getSuggestions(req.getParameter("inputvalue")));
+            json = mapper.writeValueAsString(tagsDao.getSuggestions(inputValue));
         } catch (SQLException e) {
             e.printStackTrace();
+            json = e.getMessage();
         }
 
         output.write(json);

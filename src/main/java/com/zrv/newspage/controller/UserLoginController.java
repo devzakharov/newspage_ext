@@ -27,30 +27,30 @@ public class UserLoginController extends HttpServlet {
 
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
+        ServletUtils.setUsualHeaders(resp);
         ServletUtils.setAccessControlHeaders(resp);
         PrintWriter output = resp.getWriter();
 
-        StringBuffer stringBuffer = new StringBuffer();
-        String line = "";
-        BufferedReader reader = req.getReader();
+//        StringBuffer stringBuffer = new StringBuffer();
+//        String line = "";
+        //BufferedReader reader = req.getReader();
 
         // TODO реализовать UserLoginService
 
-        try {
-            while ((line = reader.readLine()) != null)
-                stringBuffer.append(line);
-        } catch (Exception e) { /*report an error*/ }
+//        try {
+//            while ((line = reader.readLine()) != null)
+//                stringBuffer.append(line);
+//        } catch (Exception e) { /*report an error*/ }
 
-        System.out.println(reader);
-        System.out.println(line);
-        output.println(line);
+//        System.out.println(reader);
+//        System.out.println(line);
+//        output.println(line);
     }
 
     //for Preflight
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp) {
+
         ServletUtils.setAccessControlHeaders(resp);
         resp.setStatus(HttpServletResponse.SC_OK);
     }
